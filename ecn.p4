@@ -50,7 +50,7 @@ control vrfy(inout headers h, inout metadata meta) { apply {} }
 control updt(inout headers h, inout metadata meta) { apply {} }
 
 // No per-port specific modification in egress
-control egress(inout headers h, inout metadata meta, inout standard_metadata_t standard_metadata) { 
+control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) { 
 	action mark_ecn() {
 		hdr.ipv4.ecn = 3;
 	}
