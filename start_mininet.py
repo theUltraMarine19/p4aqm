@@ -50,7 +50,10 @@ class MyTopo(Topo):
 			host = self.addHost('h%d' % (h + 1))
 
 		for a, b in links:
-			self.addLink(a, b)
+			if a == "h2" and b == "s1":
+				self.addLink(a, b, bw=1)
+			else:
+				self.addLink(a, b)
 
 def get_links(json_links):
     links = []
