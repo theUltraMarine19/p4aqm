@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ###--- Remove stale json
-for j in `seq 1 10`
+for j in `seq 1 1`	# Change!
 do
-	rm ./json/drillx$j.json # CHANGE!
+	rm ./json/ecn.json  # Change!
 done
 
 ###--- Setup Environment
@@ -36,13 +36,15 @@ cd ..
 # ###--- Compile p4 for all switches
 for j in `seq 1 $(echo $(head -n 1 topology/topo.txt) | cut -d ' ' -f 2)`
 do
-    cd p4/
-    $P4C --target bmv2 --arch v1model drillx$j.p4 ; mv drillx$j.json ../json/ ; rm drillx$j.p4i # CHANGE!
-    cd -
+    # cd p4/   # Change!
+    $P4C --target bmv2 --arch v1model ecn.p4 ; mv ecn.json json/ ; rm ecn.p4i   # Change!
+    # cd -     # Change!  
 done
 
 ###--- Burn json for each switch individually using start_mininet.py
+
+# Change! --json
 sudo PYTHONPATH=$PYTHONPATH:$BMV2_PATH/mininet/ python start_mininet.py \
     --behavioral-exe $SWITCH_PATH \
-    --json ./json/drillx \
+    --json ./json/ecn \
     --cli $CLI_PATH

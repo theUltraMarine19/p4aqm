@@ -1,0 +1,2 @@
+table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.2 => 2
+table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.1 => 1

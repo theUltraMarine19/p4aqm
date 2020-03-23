@@ -39,7 +39,7 @@ class MyTopo(Topo):
 			switch = self.addSwitch('s%d' % (i + 1),		# first arg is name of the switch
 									cls = P4Switch,
 									sw_path = sw_path,
-									json_path = json_path+"%d.json" % (i + 1),
+									json_path = json_path+".json", # Change!
 									thrift_port = _THRIFT_BASE_PORT + i,
 									pcap_dump = True,
 									device_id = i,
@@ -51,7 +51,8 @@ class MyTopo(Topo):
 
 		for a, b in links:
 			if a == "h2" and b == "s1":
-				self.addLink(a, b, bw=1)
+				print "Slowing down h2-s1 link"
+				self.addLink(a, b, bw=0.001)
 			else:
 				self.addLink(a, b)
 
@@ -81,6 +82,7 @@ def main():
 	net = Mininet(topo = topo,
 				  host = P4Host,
 				  switch = P4Switch,
+				  link = TCLink,
 				  controller = None)
 	net.start()
 
@@ -100,15 +102,11 @@ def main():
 	sleep(1)
 
 	for i in xrange(nb_switches):
-		cmd = [args.cli, "--json", args.json + str(i + 1) + ".json" ,
+		cmd = [args.cli, "--json", args.json + ".json" , # Change! Removed str(i+1) from here 
 			   "--thrift-port", str(_THRIFT_BASE_PORT + i)] #, "--log-file", "switch"+str(i+1) +".log", "--log-flush"]
 		
 		# push all the same rules for 3 switches to runtime_CLI here
-		if i < 3:
-			fname = "./cli_commands/rules.txt"
-		else:
-			fname = "./cli_commands/rules-fwd.txt"
-		with open(fname, "r") as f:
+		with open("./cli_commands/rules.txt", "r") as f:
 			# print " ".join(cmd)
 			try:
 				output = subprocess.check_output(cmd, stdin = f)
