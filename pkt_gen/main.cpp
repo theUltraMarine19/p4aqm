@@ -66,19 +66,20 @@ int main(int argc, char* argv[])
     for (i = 0; i < NUMBER_OF_PACKETS; i++)
     {   
         // Dest. MAC is dummy
-        pcpp::EthLayer newEthernetLayer(pcpp::MacAddress(lg_mac), pcpp::MacAddress("aa:bb:cc:dd:ee"));
+        pcpp::EthLayer newEthernetLayer(pcpp::MacAddress(lg_mac), pcpp::MacAddress("aa:bb:cc:dd:ee"), PCPP_ETHERTYPE_IP);
 
         // create a new IPv4 layer
         //SOURCE IP, DEST IP
-        pcpp::IPv4Layer newIPLayer(pcpp::IPv4Address(interfaceIPAddr), pcpp::IPv4Address(destAddr));
+        pcpp::IPv4Layer newIPLayer(pcpp::IPv4Address(interfaceIPAddr.c_str()), pcpp::IPv4Address(destAddr.c_str()));
         // pcpp::IPv4Layer newIPLayer();
-        // newIPLayer.getIPv4Header()->protocol = pcpp::PACKETPP_IPPROTO_UDP;
-        // newIPLayer.getIPv4Header()->ipVersion = 4;
-        // newIPLayer.getIPv4Header()->timeToLive = 64;
+        newIPLayer.getIPv4Header()->protocol = pcpp::PACKETPP_IPPROTO_UDP;
+        newIPLayer.getIPv4Header()->ipVersion = 4;
+        newIPLayer.getIPv4Header()->timeToLive = 64;
         // newIPLayer.getIPv4Header()->totalLength = htons(38);
 
         // create a new UDP layer with dummy ports
         pcpp::UdpLayer newUdpLayer(12345, 12346);
+        newUdpLayer.getUdpHeader()->length = htons(8);
 
         // create a packet with initial capacity of 100 bytes (will grow automatically if needed)
         pcpp::Packet newPacket;

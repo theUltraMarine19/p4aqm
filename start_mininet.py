@@ -52,7 +52,7 @@ class MyTopo(Topo):
 		for a, b in links:
 			if a == "h2" and b == "s1":
 				print "Slowing down h2-s1 link"
-				self.addLink(a, b, bw=0.001)
+				self.addLink(a, b, bw=1)
 			else:
 				self.addLink(a, b)
 

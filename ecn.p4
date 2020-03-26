@@ -5,7 +5,7 @@
 
 typedef bit<9>  egressSpec_t;
 
-const bit<19> ECN_THRESHOLD = 1;
+const bit<19> ECN_THRESHOLD = 5;
 
 control ingress(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
 
