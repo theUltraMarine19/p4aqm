@@ -42,7 +42,23 @@ header udp_t {
 
 
 struct metadata {
-    // empty
+    bit<32> idx1;
+    bit<32> idx2;
+    bit<32> idx3;
+    bit<32> idx4;
+    bit<32> idx5;
+    bit<32> idx6;
+    bit<32> idx7;
+    bit<32> idx8;
+
+    bit<32> val1;
+    bit<32> val2;
+    bit<32> val3;
+    bit<32> val4;
+    bit<32> val5;
+    bit<32> val6;
+    bit<32> val7;
+    bit<32> val8;    
 }
 
 // Plain UDP packets

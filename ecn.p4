@@ -3,6 +3,9 @@
 #include "headers.p4"
 #include "parser.p4"
 
+#define BUCKET_SIZE 4
+#define CELL_SIZE 32
+
 typedef bit<9>  egressSpec_t;
 
 const bit<19> ECN_THRESHOLD = 5;
@@ -10,6 +13,11 @@ const bit<32> E2E_CLONE_SESSION_ID = 500;
 const bit<32> BMV2_V1MODEL_INSTANCE_TYPE_EGRESS_CLONE = 2;
 
 control ingress(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
+
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg1;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg2;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg3;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg4;
 
 	action no_op() {}
 
@@ -35,9 +43,43 @@ control ingress(inout headers hdr, inout metadata meta, inout standard_metadata_
 		default_action = no_op();
 	}
 
+	action compute1() {
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx1, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg1.read(meta.val1, meta.idx1);
+		meta.val1 = meta.val1 + 1;
+		reg1.write(meta.idx1, meta.val1);
+	}
+
+	action compute2() {
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx2, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg2.read(meta.val2, meta.idx2);
+		meta.val2 = meta.val2 + 1;
+		reg2.write(meta.idx2, meta.val2);
+	}
+
+	action compute3() {
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx3, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg3.read(meta.val3, meta.idx3);
+		meta.val3 = meta.val3 + 1;
+		reg3.write(meta.idx3, meta.val3);
+	}
+
+	action compute4() {
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx4, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg4.read(meta.val4, meta.idx4);
+		meta.val4 = meta.val4 + 1;
+		reg4.write(meta.idx4, meta.val4);
+	}
+
 	apply {
 		// No need to check for valid ipv4 header
 
+		// hash the pkt into CMS
+		compute1();
+		compute2();
+		compute3();
+		compute4();
+		
 		// put pkt on destined egress port
 		ipv4_fwd.apply();		
 	}
