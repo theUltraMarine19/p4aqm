@@ -57,6 +57,8 @@ control updt(inout headers h, inout metadata meta) { apply {} }
 control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) { 
 	action mark_ecn() {
 		hdr.ipv4.ecn = 3;
+		hdr.ipv4.diffserv = (bit<6>)standard_metadata.enq_qdepth; // Queue length at enqueue
+		// Not using queueing delay yet
 	}
 
 	apply {
