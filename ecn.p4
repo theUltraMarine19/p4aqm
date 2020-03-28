@@ -5,6 +5,7 @@
 
 #define BUCKET_SIZE 4
 #define CELL_SIZE 32
+#define NUM_SNAPSHOTS 4
 
 typedef bit<9>  egressSpec_t;
 
@@ -18,6 +19,22 @@ control ingress(inout headers hdr, inout metadata meta, inout standard_metadata_
 	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg2;
 	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg3;
 	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg4;
+
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg1;
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg2;
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg3;
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg4;
+
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg1;
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg2;
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg3;
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg4;
+
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg1;
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg2;
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg3;
+	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg4;
+
 
 	action no_op() {}
 
@@ -75,10 +92,12 @@ control ingress(inout headers hdr, inout metadata meta, inout standard_metadata_
 		// No need to check for valid ipv4 header
 
 		// hash the pkt into CMS
-		compute1();
-		compute2();
-		compute3();
-		compute4();
+		if (hdr.udp.isValid() && hdr.udp.srcPort == 12345) {
+			compute1();
+			compute2();
+			compute3();
+			compute4();
+		}
 		
 		// put pkt on destined egress port
 		ipv4_fwd.apply();		
