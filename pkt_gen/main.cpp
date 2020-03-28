@@ -75,6 +75,8 @@ int main(int argc, char* argv[])
         newIPLayer.getIPv4Header()->protocol = pcpp::PACKETPP_IPPROTO_UDP;
         newIPLayer.getIPv4Header()->ipVersion = 4;
         newIPLayer.getIPv4Header()->timeToLive = 64;
+        newIPLayer.getIPv4Header()->typeOfService = 1;
+        
         // newIPLayer.getIPv4Header()->totalLength = htons(38);
 
         // create a new UDP layer with dummy ports

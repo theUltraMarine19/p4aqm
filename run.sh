@@ -19,7 +19,8 @@ P4C=$P4C_PATH
 SWITCH_PATH=$BMV2_PATH/targets/simple_switch/simple_switch # executable to start the switch
 
 # CLI_PATH=$BMV2_PATH/tools/runtime_CLI.py
-CLI_PATH=$BMV2_PATH/tools/runtime_CLI.py # runtime CLI for switch
+# CLI_PATH=$BMV2_PATH/tools/runtime_CLI.py # runtime CLI for switch
+CLI_PATH=$BMV2_PATH/targets/simple_switch/simple_switch_CLI
 
 ###--- Read topo, create json dump of topology
 cd topology

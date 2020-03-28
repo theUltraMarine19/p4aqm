@@ -110,7 +110,7 @@ def main():
 			# print " ".join(cmd)
 			try:
 				output = subprocess.check_output(cmd, stdin = f)
-			#	print output
+				print output
 			except subprocess.CalledProcessError as e:
 				print e
 				print e.output
