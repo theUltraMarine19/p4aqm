@@ -2,7 +2,7 @@ from p4utils.utils.topology import Topology
 from p4utils.utils.sswitch_API import *
 
 crc32_polinomials = [0x04C11DB7, 0xEDB88320, 0xDB710641, 0x82608EDB, 0x741B8CD7, 0xEB31D82E,
-                     0xD663B05, 0xBA0DC66B, 0x32583499, 0x992C1A4C, 0x32583499, 0x992C1A4C]
+                     0xD663B05, 0xBA0DC66B, 0x32583499, 0x992C1A4C, 0x32583499, 0x992C1A4C] # IMP
 
 
 class CMSController(object):
@@ -13,9 +13,9 @@ class CMSController(object):
         self.sw_name = sw_name
         self.set_hash = set_hash
         self.thrift_port = self.topo.get_thrift_port(sw_name)
-        self.controller = SimpleSwitchAPI(self.thrift_port)
+        self.controller = SimpleSwitchAPI(self.thrift_port) #IMP
 
-        self.custom_calcs = self.controller.get_custom_crc_calcs()
+        self.custom_calcs = self.controller.get_custom_crc_calcs() #IMP
         self.register_num =  len(self.custom_calcs)
 
         self.init()
@@ -26,6 +26,7 @@ class CMSController(object):
             self.set_crc_custom_hashes()
         self.create_hashes()
 
+    # Mininet (Not needed)
     def reset_registers(self):
         for i in range(self.register_num):
             self.controller.register_reset("sketch{}".format(i))
@@ -33,22 +34,20 @@ class CMSController(object):
     def flow_to_bytestream(self, flow):
         return socket.inet_aton(flow[0]) + socket.inet_aton(flow[1]) + struct.pack(">HHB",flow[2], flow[3], 6)
 
+    # Mininet
     def set_crc_custom_hashes(self):
         i = 0
         for custom_crc32, width in sorted(self.custom_calcs.items()):
             self.controller.set_crc32_parameters(custom_crc32, crc32_polinomials[i], 0xffffffff, 0xffffffff, True, True)
             i+=1
 
-    def create_hashes(self):
-        self.hashes = []
-        for i in range(self.register_num):
-            self.hashes.append(Crc(32, crc32_polinomials[i], True, 0xffffffff, True, 0xffffffff))
-
+    # Mininet to verify
     def read_registers(self):
         self.registers = []
         for i in range(self.register_num):
             self.registers.append(self.controller.register_read("sketch{}".format(i)))
 
+    # How to read CMS
     def get_cms(self, flow, mod):
         values = []
         for i in range(self.register_num):
@@ -56,6 +55,7 @@ class CMSController(object):
             values.append(self.registers[i][index])
         return min(values)
 
+    # CMS gorund truth verification
     def decode_registers(self, eps, n, mod, ground_truth_file="sent_flows.pickle"):
 
         """In the decoding function you were free to compute whatever you wanted.

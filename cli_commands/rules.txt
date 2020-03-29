@@ -1,3 +1,12 @@
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.2 => 2
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.1 => 1
+
 mirroring_add 500 1
+
+set_crc32_parameters calc 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_0 0xEDB88320 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_1 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_2 0x82608EDB 0xffffffff 0xffffffff 1 1
+
+register_write reg1 0 0
+register_read reg1 0
