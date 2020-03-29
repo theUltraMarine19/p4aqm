@@ -1,12 +1,26 @@
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.2 => 2
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.1 => 1
+table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.3 => 3
+table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.4 => 4
 
 mirroring_add 500 1
+mirroring_add 400 3
+mirroring_add 300 4
+
+table_add hclone clone_h1 10.0.0.1 =>
+table_add hclone clone_h2 10.0.0.2 =>
+table_add hclone clone_h3 10.0.0.3 =>
+table_add hclone clone_h4 10.0.0.4 =>	
 
 set_crc32_parameters calc 0x04C11DB7 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_0 0xEDB88320 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_1 0xDB710641 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_2 0x82608EDB 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_3 0x741B8CD7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_4 0xEB31D82E 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_5 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_6	 0xBA0DC66B 0xffffffff 0xffffffff 1 1
 
 register_write reg11 0 0
 register_read reg11 0

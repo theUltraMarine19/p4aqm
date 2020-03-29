@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
     printf("\nStarting capture with packet vector...\n");
 
     // create a new Ethernet layer
-    int NUMBER_OF_PACKETS = atoi(argv[3]);
+    int NUMBER_OF_PACKETS = atoi(argv[4]);
     int i = 0;
     clock_t t;
     t = clock();
@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
         // newIPLayer.getIPv4Header()->totalLength = htons(38);
 
         // create a new UDP layer with dummy ports
-        pcpp::UdpLayer newUdpLayer(12345, 12346);
+        pcpp::UdpLayer newUdpLayer(atoi(argv[3]), 12346);
         newUdpLayer.getUdpHeader()->length = htons(8);
 
         // create a packet with initial capacity of 100 bytes (will grow automatically if needed)
@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
         // compute all calculated fields
         // newPacket.computeCalculateFields();
 
-        usleep(atoi(argv[4]));
+        usleep(atoi(argv[5]));
         
         if (!dev->sendPacket(&newPacket))
         {

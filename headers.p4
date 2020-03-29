@@ -42,23 +42,27 @@ header udp_t {
 
 
 struct metadata {
-    bit<32> idx1;
-    bit<32> idx2;
-    bit<32> idx3;
-    bit<32> idx4;
-    bit<32> idx5;
-    bit<32> idx6;
-    bit<32> idx7;
-    bit<32> idx8;
-
-    bit<32> val1;
-    bit<32> val2;
-    bit<32> val3;
-    bit<32> val4;
-    bit<32> val5;
-    bit<32> val6;
-    bit<32> val7;
-    bit<32> val8;
+    bit<32> idx11;
+    bit<32> idx12;
+    bit<32> idx13;
+    bit<32> idx14;
+    
+    bit<32> idx21;
+    bit<32> idx22;
+    bit<32> idx23;
+    bit<32> idx24;
+    
+    bit<32> val11;
+    bit<32> val12;
+    bit<32> val13;
+    bit<32> val14;
+    bit<32> min1;
+    
+    bit<32> val21;
+    bit<32> val22;
+    bit<32> val23;
+    bit<32> val24;
+    bit<32> min2;
 
     bit<32> ws;    
 }
