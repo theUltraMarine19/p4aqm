@@ -58,7 +58,9 @@ struct metadata {
     bit<32> val5;
     bit<32> val6;
     bit<32> val7;
-    bit<32> val8;    
+    bit<32> val8;
+
+    bit<32> ws;    
 }
 
 // Plain UDP packets

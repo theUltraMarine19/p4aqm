@@ -5,16 +5,16 @@
 
 #define BUCKET_SIZE 4
 #define CELL_SIZE 32
-#define NUM_SNAPSHOTS 2
+// power of 2 for now
+#define NUM_SNAPSHOTS 2 
 
-// Saves Match Action table
 #define COMPUTE(stage, num) compute##stage##num() 
 
 typedef bit<9>  egressSpec_t;
 
 const bit<19> ECN_THRESHOLD = 5;
 const bit<32> E2E_CLONE_SESSION_ID = 500;
-const bit<32> QD_THRESHOLD = 20; // us
+const int QD_THRESHOLD = 20; // us
 const bit<32> BMV2_V1MODEL_INSTANCE_TYPE_EGRESS_CLONE = 2;
 
 control ingress(inout headers hdr, inout metadata meta, inout standard_metadata_t standard_metadata) {
@@ -44,10 +44,9 @@ control ingress(inout headers hdr, inout metadata meta, inout standard_metadata_
 	}
 
 	apply {
-		// No need to check for valid ipv4 header
-
 		// put pkt on destined egress port
-		ipv4_fwd.apply();		
+		if (hdr.ipv4.isValid())
+			ipv4_fwd.apply();		
 	}
 
 
@@ -202,6 +201,47 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 	// 	reg44.write(meta.idx4, meta.val4);
 	// }
 
+	// Owing to recycled snapshots 
+	action lookup1() {
+		COMPUTE(1,1);
+		COMPUTE(1,2);
+		COMPUTE(1,3);
+		COMPUTE(1,4);		
+	}
+
+	action lookup2() {
+		COMPUTE(2,1);
+		COMPUTE(2,2);
+		COMPUTE(2,3);
+		COMPUTE(2,4);		
+	}
+
+	// action lookup3() {
+	// 	COMPUTE(3,1);
+	// 	COMPUTE(3,2);
+	// 	COMPUTE(3,3);
+	// 	COMPUTE(3,4);		
+	// }
+
+	// action lookup4() {
+	// 	COMPUTE(4,1);
+	// 	COMPUTE(4,2);
+	// 	COMPUTE(4,3);
+	// 	COMPUTE(4,4);		
+	// }
+
+	table invoke {
+		key = {
+			meta.ws : exact;
+		}
+		actions = {
+			lookup1;
+			lookup2;
+			// lookup3;
+			// lookup4;
+		}
+	}
+
 
 	apply {
 		// Cloned pkt
@@ -224,15 +264,20 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
             hdr.udp.dstPort = tempPort;
 		}
 		else if (hdr.udp.isValid() && hdr.udp.srcPort == 12345) { // No if-else nesting more than two levels
+			
 			clone3(CloneType.E2E, E2E_CLONE_SESSION_ID, {standard_metadata}); // clone the pkt
+			
 			if (standard_metadata.enq_qdepth >= ECN_THRESHOLD) {
 				// Mark for ECN
 				mark_ecn();
 				if (standard_metadata.deq_timedelta >= QD_THRESHOLD) {
 					// id as contributing flow
-					int arrival = standard_metadata.enq_timestamp;
-					int departure = (bit<32>)standard_metadata.egress_global_timestamp;
-					// hash the pkt into CMS
+					bit<32> arrival = standard_metadata.enq_timestamp;
+					bit<32> departure = (bit<32>)standard_metadata.egress_global_timestamp;
+					
+					// identify writing snapshot and hash into it
+					meta.ws = ((departure << 4) + (departure << 2)) & 1; // NUM_SNAPSHOTS is 2
+					invoke.apply();									
 					
 				}
 			}
