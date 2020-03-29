@@ -9,6 +9,7 @@
 #include "PcapLiveDeviceList.h"
 #include "PlatformSpecificUtils.h"
 #include <time.h>
+#include <unistd.h>
 
 int main(int argc, char* argv[])
 {
@@ -76,6 +77,7 @@ int main(int argc, char* argv[])
         newIPLayer.getIPv4Header()->ipVersion = 4;
         newIPLayer.getIPv4Header()->timeToLive = 64;
         newIPLayer.getIPv4Header()->typeOfService = 0;
+        newIPLayer.getIPv4Header()->headerChecksum = i;
         
         // newIPLayer.getIPv4Header()->totalLength = htons(38);
 
@@ -93,6 +95,8 @@ int main(int argc, char* argv[])
 
         // compute all calculated fields
         // newPacket.computeCalculateFields();
+
+        usleep(atoi(argv[4]));
         
         if (!dev->sendPacket(&newPacket))
         {

@@ -7,7 +7,9 @@
 #define CELL_SIZE 32
 // power of 2 for now
 #define NUM_SNAPSHOTS 2
-#define T 16 
+#define LOG_NUM_SNAPSHOTS 2
+#define T 16
+#define LOG_T 4
 
 #define COMPUTE(num) compute##num() 
 
@@ -202,15 +204,15 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		reg12.read(meta.val2, meta.idx2);
 		reg13.read(meta.val3, meta.idx3);
 		reg14.read(meta.val4, meta.idx4);
-	}
+		}
 
 	table invoke {
 		key = {
 			meta.ws : exact;
 		}
 		actions = {
-			COMPUTE(0);
 			COMPUTE(1);
+			COMPUTE(2);
 			// lookup3;
 			// lookup4;
 		}
@@ -236,6 +238,8 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
             tempPort = hdr.udp.srcPort;
             hdr.udp.srcPort = hdr.udp.dstPort;
             hdr.udp.dstPort = tempPort;
+
+            hdr.udp.checksum = (bit<16>)standard_metadata.deq_timedelta;
 		}
 		else if (hdr.udp.isValid() && hdr.udp.srcPort == 12345) { // No if-else nesting more than two levels
 			
@@ -244,16 +248,16 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 			if (standard_metadata.enq_qdepth >= ECN_THRESHOLD) {
 				// Mark for ECN
 				mark_ecn();
-				if (standard_metadata.deq_timedelta >= QD_THRESHOLD) {
-					// id as contributing flow
-					bit<32> arrival = standard_metadata.enq_timestamp;
-					bit<32> departure = (bit<32>)standard_metadata.egress_global_timestamp;
+				// if (standard_metadata.deq_timedelta >= QD_THRESHOLD) {
+				// 	// id as contributing flow
+				// 	bit<32> arrival = standard_metadata.enq_timestamp;
+				// 	bit<32> departure = (bit<32>)standard_metadata.egress_global_timestamp;
 					
-					// identify writing snapshot and hash into it
-					meta.ws = (departure >> 4) & 1; // NUM_SNAPSHOTS is 2
-					invoke.apply();									
+				// 	// identify writing snapshot and hash into it
+				// 	meta.ws = (departure >> LOG_T) & LOG_NUM_SNAPSHOTS;
+				// 	invoke.apply();									
 					
-				}
+				// }
 			}
 		}		
 		
