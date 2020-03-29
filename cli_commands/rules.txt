@@ -8,5 +8,5 @@ set_crc32_parameters calc_0 0xEDB88320 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_1 0xDB710641 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_2 0x82608EDB 0xffffffff 0xffffffff 1 1
 
-register_write reg1 0 0
-register_read reg1 0
+register_write reg11 0 0
+register_read reg11 0
