@@ -340,19 +340,13 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					
 					// identify writing snapshot and hash into it
 					meta.ws = (departure >> LOG_T) & LOG_NUM_SNAPSHOTS;
-					// invoke.apply();
-
-					if (hdr.udp.srcPort == 12345)
-						COMPUTE(1);
-
-					if (hdr.udp.srcPort == 12347)
-						COMPUTE(2);
+					invoke.apply();
 
 					// if (hdr.udp.srcPort == 12348) {
 						read1();
 						read2();
-						hdr.udp.checksum = (bit<16>)meta.min1;
-						hdr.ipv4.hdrChecksum = (bit<16>)meta.min2;
+						hdr.udp.checksum = (bit<16>)meta.ws;
+						// hdr.ipv4.hdrChecksum = (bit<16>)meta.min2;
 					// }
 
 				// }
