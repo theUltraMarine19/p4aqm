@@ -41,9 +41,14 @@ header udp_t {
 }
 
 header debug_t {
-    bit<32> ws;
-    bit<48> egr_ts;
-    bit<32> dep;
+    // bit<32> ws;
+    // bit<48> egr_ts;
+    // bit<32> dep;
+    bit<32> min1;
+    bit<32> min2;
+    bit<32> min3;
+    bit<32> min4;
+    
 }
 
 struct metadata {
@@ -57,6 +62,16 @@ struct metadata {
     bit<32> idx23;
     bit<32> idx24;
     
+    bit<32> idx31;
+    bit<32> idx32;
+    bit<32> idx33;
+    bit<32> idx34;
+    
+    bit<32> idx41;
+    bit<32> idx42;
+    bit<32> idx43;
+    bit<32> idx44;
+
     bit<32> val11;
     bit<32> val12;
     bit<32> val13;
@@ -68,6 +83,18 @@ struct metadata {
     bit<32> val23;
     bit<32> val24;
     bit<32> min2;
+
+    bit<32> val31;
+    bit<32> val32;
+    bit<32> val33;
+    bit<32> val34;
+    bit<32> min3;
+    
+    bit<32> val41;
+    bit<32> val42;
+    bit<32> val43;
+    bit<32> val44;
+    bit<32> min4;
 
     bit<32> ws;    
 }

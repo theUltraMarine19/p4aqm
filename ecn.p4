@@ -9,7 +9,6 @@
 #define CELL_SIZE 32
 // power of 2 for now
 #define NUM_SNAPSHOTS 4
-#define LOG_NUM_SNAPSHOTS 2
 #define T 32
 #define LOG_T 5
 
@@ -81,15 +80,15 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg23;
 	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg24;
 
-	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg31;
-	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg32;
-	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg33;
-	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg34;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg31;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg32;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg33;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg34;
 
-	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg41;
-	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg42;
-	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg43;
-	// register<bit<CELL_SIZE>>(BUCKET_SIZE) reg44;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg41;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg42;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg43;
+	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg44;
 
 	action mark_ecn() {
 		hdr.ipv4.ecn = 3;
@@ -141,61 +140,49 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		reg24.write(meta.idx24, meta.val24);
 	}
 
-	// action compute31() {
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx1, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	reg31.read(meta.val1, meta.idx1);
-	// 	meta.val1 = meta.val1 + 1;
-	// 	reg31.write(meta.idx1, meta.val1);
-	// }
+	action compute3() {
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx31, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg31.read(meta.val31, meta.idx31);
+		meta.val31 = meta.val31 + 1;
+		reg31.write(meta.idx31, meta.val31);
 
-	// action compute32() {
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx2, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	reg32.read(meta.val2, meta.idx2);
-	// 	meta.val2 = meta.val2 + 1;
-	// 	reg32.write(meta.idx2, meta.val2);
-	// }
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx32, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg32.read(meta.val32, meta.idx32);
+		meta.val32 = meta.val32 + 1;
+		reg32.write(meta.idx32, meta.val32);
 
-	// action compute33() {
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx3, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	reg33.read(meta.val3, meta.idx3);
-	// 	meta.val3 = meta.val3 + 1;
-	// 	reg33.write(meta.idx3, meta.val3);
-	// }
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx33, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg33.read(meta.val33, meta.idx33);
+		meta.val33 = meta.val33 + 1;
+		reg33.write(meta.idx33, meta.val33);
 
-	// action compute34() {
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx4, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	reg34.read(meta.val4, meta.idx4);
-	// 	meta.val4 = meta.val4 + 1;
-	// 	reg34.write(meta.idx4, meta.val4);
-	// }
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx34, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg34.read(meta.val34, meta.idx34);
+		meta.val34 = meta.val34 + 1;
+		reg34.write(meta.idx34, meta.val34);
+	}
 
-	// action compute41() {
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx1, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	reg41.read(meta.val1, meta.idx1);
-	// 	meta.val1 = meta.val1 + 1;
-	// 	reg41.write(meta.idx1, meta.val1);
-	// }
+	action compute4() {
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx41, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg41.read(meta.val41, meta.idx41);
+		meta.val41 = meta.val41 + 1;
+		reg41.write(meta.idx41, meta.val41);
 
-	// action compute42() {
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx2, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	reg42.read(meta.val2, meta.idx2);
-	// 	meta.val2 = meta.val2 + 1;
-	// 	reg42.write(meta.idx2, meta.val2);
-	// }
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx42, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg42.read(meta.val42, meta.idx42);
+		meta.val42 = meta.val42 + 1;
+		reg42.write(meta.idx42, meta.val42);
 
-	// action compute43() {
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx3, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	reg43.read(meta.val3, meta.idx3);
-	// 	meta.val3 = meta.val3 + 1;
-	// 	reg43.write(meta.idx3, meta.val3);
-	// }
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx43, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg43.read(meta.val43, meta.idx43);
+		meta.val43 = meta.val43 + 1;
+		reg43.write(meta.idx43, meta.val43);
 
-	// action compute44() {
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx4, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	reg44.read(meta.val4, meta.idx4);
-	// 	meta.val4 = meta.val4 + 1;
-	// 	reg44.write(meta.idx4, meta.val4);
-	// }
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx44, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg44.read(meta.val44, meta.idx44);
+		meta.val44 = meta.val44 + 1;
+		reg44.write(meta.idx44, meta.val44);
+	}
 
 	// Owing to recycled snapshots 
 	
@@ -270,8 +257,8 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		actions = {
 			COMPUTE(1);
 			COMPUTE(2);
-			// lookup3;
-			// lookup4;
+			COMPUTE(3);
+			COMPUTE(4);			
 		}
 	}
 
@@ -326,7 +313,7 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 
             // hdr.udp.checksum = (bit<16>)standard_metadata.deq_timedelta;
 		}
-		else if (hdr.udp.isValid()) { // No if-else nesting more than two levels
+		else if (hdr.debug.isValid()) { // No if-else nesting more than two levels
 			
 			hclone.apply();		
 			
@@ -339,15 +326,16 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					bit<48> departure = standard_metadata.egress_global_timestamp;
 					
 					// identify writing snapshot and hash into it
-					meta.ws = (bit<32>)(departure >> LOG_T) & LOG_NUM_SNAPSHOTS;
+					meta.ws = (bit<32>)(departure >> LOG_T) & (NUM_SNAPSHOTS-1); // Both are almost equally precise
 					invoke.apply();
 
 					// if (hdr.udp.srcPort == 12348) {
-						read1();
-						read2();
-						hdr.debug.ws = meta.ws;
-						hdr.debug.egr_ts = departure;
-						hdr.debug.dep = standard_metadata.enq_timestamp + standard_metadata.deq_timedelta;
+						// read1();
+						// read2();
+						hdr.debug.min1 = meta.ws;
+						hdr.debug.min2 = meta.min1;
+						hdr.debug.min3 = meta.min2;
+						hdr.debug.min4 = meta.min3;
 					// }
 
 				// }
@@ -359,3 +347,8 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 
 V1Switch(c_parser(), vrfy(), ingress(), egress(), updt(), c_deparser()) main;
 
+// Debug configs
+
+// hdr.debug.ws = meta.ws;
+// hdr.debug.egr_ts = departure;
+// hdr.debug.dep = standard_metadata.enq_timestamp + standard_metadata.deq_timedelta;	

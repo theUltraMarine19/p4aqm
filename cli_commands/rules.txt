@@ -12,8 +12,10 @@ table_add hclone clone_h2 10.0.0.2 =>
 table_add hclone clone_h3 10.0.0.3 =>
 table_add hclone clone_h4 10.0.0.4 =>
 
-table_add invoke compute1 1 =>
-table_add invoke compute2 2 =>
+table_add invoke compute1 0 =>
+table_add invoke compute2 1 =>
+table_add invoke compute3 2 =>
+table_add invoke compute4 3 =>
 
 set_crc32_parameters calc 0x04C11DB7 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_0 0xEDB88320 0xffffffff 0xffffffff 1 1

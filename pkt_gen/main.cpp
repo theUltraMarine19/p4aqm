@@ -11,7 +11,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define LEN 14
+#define LEN 16
 
 int main(int argc, char* argv[])
 {
