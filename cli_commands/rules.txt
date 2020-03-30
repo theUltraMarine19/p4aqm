@@ -22,5 +22,15 @@ set_crc32_parameters calc_4 0xEB31D82E 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_5 0xD663B05 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_6	 0xBA0DC66B 0xffffffff 0xffffffff 1 1
 
+set_crc32_parameters calc_7 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_8 0xEDB88320 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_9 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_10 0x82608EDB 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_11 0x741B8CD7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_12 0xEB31D82E 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_13 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_14 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
 register_write reg11 0 0
 register_read reg11 0

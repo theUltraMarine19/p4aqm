@@ -209,12 +209,14 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		reg12.read(meta.val12, meta.idx12);
 		reg13.read(meta.val13, meta.idx13);
 		reg14.read(meta.val14, meta.idx14);
-		meta.min1 = meta.val11;
-		if (meta.val12 < meta.min1)
+		meta.min1 = 32w2147483647;
+		if (meta.val11 != 0)
+			meta.min1 = meta.val11;
+		if (meta.val12 < meta.min1 && meta.val12 != 0)
 			meta.min1 = meta.val12;
-		if (meta.val13 < meta.min1)
+		if (meta.val13 < meta.min1 && meta.val13 != 0)
 			meta.min1 = meta.val13;
-		if (meta.val14 < meta.min1)
+		if (meta.val14 < meta.min1 && meta.val14 != 0)
 			meta.min1 = meta.val14;
 					
 	}
@@ -228,6 +230,15 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		reg22.read(meta.val22, meta.idx22);
 		reg23.read(meta.val23, meta.idx23);
 		reg24.read(meta.val24, meta.idx24);
+		meta.min2 = 32w2147483647;
+		if (meta.val21 != 0)
+			meta.min2 = meta.val21;
+		if (meta.val22 < meta.min2 && meta.val22 != 0)
+			meta.min2 = meta.val22;
+		if (meta.val23 < meta.min2 && meta.val23 != 0)
+			meta.min2 = meta.val23;
+		if (meta.val24 < meta.min2 && meta.val24 != 0)
+			meta.min2 = meta.val24;
 	}
 
 	// action read3() {
@@ -313,34 +324,39 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
             hdr.udp.srcPort = hdr.udp.dstPort;
             hdr.udp.dstPort = tempPort;
 
-            hdr.udp.checksum = (bit<16>)standard_metadata.deq_timedelta;
+            // hdr.udp.checksum = (bit<16>)standard_metadata.deq_timedelta;
 		}
 		else if (hdr.udp.isValid()) { // No if-else nesting more than two levels
 			
 			hclone.apply();		
 			
-			if (standard_metadata.enq_qdepth >= ECN_THRESHOLD) {
+			// if (standard_metadata.enq_qdepth >= ECN_THRESHOLD) {
 				// Mark for ECN
 				mark_ecn();
-				if (standard_metadata.deq_timedelta >= QD_THRESHOLD) {
+				// if (standard_metadata.deq_timedelta >= QD_THRESHOLD) {
 					// id as contributing flow
 					bit<32> arrival = standard_metadata.enq_timestamp;
 					bit<32> departure = (bit<32>)standard_metadata.egress_global_timestamp;
 					
 					// identify writing snapshot and hash into it
 					meta.ws = (departure >> LOG_T) & LOG_NUM_SNAPSHOTS;
-					invoke.apply();
+					// invoke.apply();
 
-					// bit<32> min = meta.val1;
-					// if (meta.val2 < min)
-					// 	min = meta.val2;
-					// if (meta.val3 < min)
-					// 	min = meta.val3;
-					// if (meta.val4 < min)
-					// 	min = meta.val4;															
-					
-				}
-			}
+					if (hdr.udp.srcPort == 12345)
+						COMPUTE(1);
+
+					if (hdr.udp.srcPort == 12347)
+						COMPUTE(2);
+
+					// if (hdr.udp.srcPort == 12348) {
+						read1();
+						read2();
+						hdr.udp.checksum = (bit<16>)meta.min1;
+						hdr.ipv4.hdrChecksum = (bit<16>)meta.min2;
+					// }
+
+				// }
+			// }
 		}		
 		
 	} 
