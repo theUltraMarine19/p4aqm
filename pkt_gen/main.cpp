@@ -3,7 +3,7 @@
 #include "Packet.h"
 #include "EthLayer.h"
 #include "IPv4Layer.h"
-#include "HttpLayer.h"
+#include "PayloadLayer.h"
 #include "UdpLayer.h"
 #include "PcapFileDevice.h"
 #include "PcapLiveDeviceList.h"
@@ -80,6 +80,10 @@ int main(int argc, char* argv[])
     pcpp::UdpLayer newUdpLayer(atoi(argv[3]), 12346);
     newUdpLayer.getUdpHeader()->length = htons(8);
 
+    uint8_t* payload = (uint8_t*)malloc(4);
+    payload = 0;
+    pcpp::PayloadLayer newPayload(payload, 4, 0);
+
     for (i = 0; i < NUMBER_OF_PACKETS; i++)
     {   
         newIPLayer.getIPv4Header()->headerChecksum = i;
@@ -91,6 +95,7 @@ int main(int argc, char* argv[])
         newPacket.addLayer(&newEthernetLayer);
         newPacket.addLayer(&newIPLayer);
         newPacket.addLayer(&newUdpLayer);
+        newPacket.addLayer(&newPayload);
 
         // compute all calculated fields
         // newPacket.computeCalculateFields();

@@ -22,6 +22,7 @@ parser c_parser(packet_in packet, out headers hdr, inout metadata meta, inout st
 
     state parse_udp {
         packet.extract(hdr.udp);
+        packet.extract(hdr.debug);
         transition accept;
     }
     // Accept all UDP pkts for now
@@ -33,5 +34,6 @@ control c_deparser(packet_out packet, in headers hdr) {
         packet.emit(hdr.ethernet);
         packet.emit(hdr.ipv4);
         packet.emit(hdr.udp);
+        packet.emit(hdr.debug);
     }
 }

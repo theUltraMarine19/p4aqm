@@ -40,6 +40,9 @@ header udp_t {
     bit<16> checksum;
 }
 
+header debug_t {
+    bit<32> ws;
+}
 
 struct metadata {
     bit<32> idx11;
@@ -72,4 +75,5 @@ struct headers {
     ethernet_t ethernet;
     ipv4_t     ipv4;
     udp_t      udp;
+    debug_t    debug;
 }
