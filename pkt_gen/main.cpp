@@ -56,14 +56,13 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    printf("\nStarting capture with packet vector...\n");
+    printf("\nStarting pkt creation...\n");
 
     // create a new Ethernet layer
     int NUMBER_OF_PACKETS = atoi(argv[4]);
     int i = 0;
     clock_t t;
-    t = clock();
-
+    
     // Dest. MAC is dummy
     pcpp::EthLayer newEthernetLayer(pcpp::MacAddress(lg_mac), pcpp::MacAddress("aa:bb:cc:dd:ee"), PCPP_ETHERTYPE_IP);
 
@@ -75,28 +74,34 @@ int main(int argc, char* argv[])
     newIPLayer.getIPv4Header()->ipVersion = 4;
     newIPLayer.getIPv4Header()->timeToLive = 64;
     newIPLayer.getIPv4Header()->typeOfService = 0;
+    newIPLayer.getIPv4Header()->totalLength = htons(32);
     
     // create a new UDP layer with dummy ports
     pcpp::UdpLayer newUdpLayer(atoi(argv[3]), 12346);
-    newUdpLayer.getUdpHeader()->length = htons(8);
+    newUdpLayer.getUdpHeader()->length = htons(12);
 
     uint8_t* payload = (uint8_t*)malloc(4);
-    payload = 0;
+    uint8_t val[4];
+    for (int i = 0; i < 4; i++)
+        val[i] = 0;
+    memcpy(payload, val, 4);
     pcpp::PayloadLayer newPayload(payload, 4, 0);
+
+    // create a packet with initial capacity of 100 bytes (will grow automatically if needed)
+    pcpp::Packet newPacket;
+
+    // add all the layers we created
+    newPacket.addLayer(&newEthernetLayer);
+    newPacket.addLayer(&newIPLayer);
+    newPacket.addLayer(&newUdpLayer);
+    newPacket.addLayer(&newPayload);
+
+    t = clock();
 
     for (i = 0; i < NUMBER_OF_PACKETS; i++)
     {   
-        newIPLayer.getIPv4Header()->headerChecksum = i;
-                
-        // create a packet with initial capacity of 100 bytes (will grow automatically if needed)
-        pcpp::Packet newPacket;
-
-        // add all the layers we created
-        newPacket.addLayer(&newEthernetLayer);
-        newPacket.addLayer(&newIPLayer);
-        newPacket.addLayer(&newUdpLayer);
-        newPacket.addLayer(&newPayload);
-
+        newIPLayer.getIPv4Header()->headerChecksum = htons(i);
+        
         // compute all calculated fields
         // newPacket.computeCalculateFields();
 

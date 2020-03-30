@@ -345,7 +345,7 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					// if (hdr.udp.srcPort == 12348) {
 						read1();
 						read2();
-						hdr.udp.checksum = (bit<16>)meta.ws;
+						hdr.debug.ws = meta.ws;
 						// hdr.ipv4.hdrChecksum = (bit<16>)meta.min2;
 					// }
 
