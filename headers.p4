@@ -42,6 +42,8 @@ header udp_t {
 
 header debug_t {
     bit<32> ws;
+    bit<48> egr_ts;
+    bit<32> dep;
 }
 
 struct metadata {

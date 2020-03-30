@@ -336,17 +336,18 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 				// if (standard_metadata.deq_timedelta >= QD_THRESHOLD) {
 					// id as contributing flow
 					bit<32> arrival = standard_metadata.enq_timestamp;
-					bit<32> departure = (bit<32>)standard_metadata.egress_global_timestamp;
+					bit<48> departure = standard_metadata.egress_global_timestamp;
 					
 					// identify writing snapshot and hash into it
-					meta.ws = (departure >> LOG_T) & LOG_NUM_SNAPSHOTS;
+					meta.ws = (bit<32>)(departure >> LOG_T) & LOG_NUM_SNAPSHOTS;
 					invoke.apply();
 
 					// if (hdr.udp.srcPort == 12348) {
 						read1();
 						read2();
 						hdr.debug.ws = meta.ws;
-						// hdr.ipv4.hdrChecksum = (bit<16>)meta.min2;
+						hdr.debug.egr_ts = departure;
+						hdr.debug.dep = standard_metadata.enq_timestamp + standard_metadata.deq_timedelta;
 					// }
 
 				// }

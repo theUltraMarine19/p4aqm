@@ -11,6 +11,8 @@
 #include <time.h>
 #include <unistd.h>
 
+#define LEN 14
+
 int main(int argc, char* argv[])
 {
 
@@ -74,18 +76,18 @@ int main(int argc, char* argv[])
     newIPLayer.getIPv4Header()->ipVersion = 4;
     newIPLayer.getIPv4Header()->timeToLive = 64;
     newIPLayer.getIPv4Header()->typeOfService = 0;
-    newIPLayer.getIPv4Header()->totalLength = htons(32);
+    newIPLayer.getIPv4Header()->totalLength = htons(28+LEN);
     
     // create a new UDP layer with dummy ports
     pcpp::UdpLayer newUdpLayer(atoi(argv[3]), 12346);
-    newUdpLayer.getUdpHeader()->length = htons(12);
+    newUdpLayer.getUdpHeader()->length = htons(8+LEN);
 
-    uint8_t* payload = (uint8_t*)malloc(4);
-    uint8_t val[4];
-    for (int i = 0; i < 4; i++)
-        val[i] = 0;
-    memcpy(payload, val, 4);
-    pcpp::PayloadLayer newPayload(payload, 4, 0);
+    uint8_t* payload = (uint8_t*)malloc(LEN);
+    // uint8_t val[4];
+    // for (int i = 0; i < 4; i++)
+    //     val[i] = 0;
+    // memcpy(payload, val, 4);
+    pcpp::PayloadLayer newPayload(payload, LEN, 0);
 
     // create a packet with initial capacity of 100 bytes (will grow automatically if needed)
     pcpp::Packet newPacket;
