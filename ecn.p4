@@ -7,8 +7,8 @@
 #define MAX_D_MIUS_A 64
 #define BUCKET_SIZE 32
 #define CELL_SIZE 32
-// power of 2 for now
-#define NUM_SNAPSHOTS 4
+// Can read from atmost 2
+#define NUM_SNAPSHOTS 4 
 #define T 32
 #define LOG_T 5
 
@@ -316,6 +316,43 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		}
 	}
 
+	action read1_1() {
+		read1();
+		read3();
+	}
+
+	action read2_1() {
+		read2();
+		read1();
+	}
+
+	action read3_1() {
+		read3();
+		read2();
+	}
+
+	action read4_1() {
+		read4();
+		read3();
+	}
+
+	table reader {
+		key = {
+			meta.ws : exact;
+			meta.diff : exact;
+		}
+		actions = {
+			read1;
+			read2;
+			read3;
+			read4;
+			read1_1;
+			read2_1;
+			read3_1;
+			read4_1;
+		}
+	}
+
 
 	apply {
 		// Cloned pkt
@@ -365,12 +402,17 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					// id as contributing flow
 					bit<32> arrival = standard_metadata.enq_timestamp;
 					bit<48> departure = standard_metadata.egress_global_timestamp;
+					bit<32> dep_by_T = (bit<32>)(departure >> LOG_T);
 					
 					// identify writing snapshot and hash into it
-					meta.ws = (bit<32>)(departure >> LOG_T) & (NUM_SNAPSHOTS-1); // Both are almost equally precise
+					meta.ws = dep_by_T & (NUM_SNAPSHOTS-1); // Both are almost equally precise
 					invoke.apply();
 
 					hdr.debug.ws = meta.ws;
+					hdr.debug.min1 = (standard_metadata.deq_timedelta >> LOG_T);
+					hdr.debug.min2 = standard_metadata.deq_timedelta;
+					hdr.debug.min3 = (dep_by_T-1) & (NUM_SNAPSHOTS-1);
+					hdr.debug.min4 = (dep_by_T-2) & (NUM_SNAPSHOTS-1);
 					
 				// }
 			// }

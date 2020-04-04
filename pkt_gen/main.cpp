@@ -9,7 +9,9 @@
 #include "PcapLiveDeviceList.h"
 #include "PlatformSpecificUtils.h"
 #include <time.h>
-#include <unistd.h>
+// #include <unistd.h>
+#include <chrono>
+#include <thread>
 
 #define LEN 20
 
@@ -99,7 +101,9 @@ int main(int argc, char* argv[])
     newPacket.addLayer(&newUdpLayer);
     newPacket.addLayer(&newPayload);
 
-    t = clock();
+    // t = clock();
+    struct timeval end, start;
+    gettimeofday(&start, NULL);
 
     for (i = 0; i < NUMBER_OF_PACKETS; i++)
     {   
@@ -108,7 +112,9 @@ int main(int argc, char* argv[])
         // compute all calculated fields
         // newPacket.computeCalculateFields();
 
-        usleep(atoi(argv[5]));
+        std::this_thread::sleep_for(std::chrono::microseconds(atoi(argv[5])));
+
+        // PCAP_SLEEP(atof(argv[5]));
         
         if (!dev->sendPacket(&newPacket))
         {
@@ -116,8 +122,8 @@ int main(int argc, char* argv[])
             exit(1);
         }
     }
-    t = clock() - t;
+    gettimeofday(&end, NULL);
     printf("%d packets sent\n", NUMBER_OF_PACKETS);
-    double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
-    printf("Sending took %f seconds \n", time_taken);
+    long long int time_taken = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec); // in seconds
+    printf("Sending took %lld microseconds \n", time_taken);
 }

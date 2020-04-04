@@ -96,7 +96,9 @@ struct metadata {
     bit<32> val44;
     bit<32> min4;
 
-    bit<32> ws;    
+    bit<32> ws;
+    bit<32> as;
+    bit<32> diff;    
 }
 
 // Plain UDP packets
