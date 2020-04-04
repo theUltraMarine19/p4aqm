@@ -25,17 +25,37 @@ set_crc32_parameters calc_2 0x82608EDB 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_3 0x741B8CD7 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_4 0xEB31D82E 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_5 0xD663B05 0xffffffff 0xffffffff 1 1
-set_crc32_parameters calc_6	 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_6	0xBA0DC66B 0xffffffff 0xffffffff 1 1
 
-set_crc32_parameters calc_7 0x04C11DB7 0xffffffff 0xffffffff 1 1
-set_crc32_parameters calc_8 0xEDB88320 0xffffffff 0xffffffff 1 1
-set_crc32_parameters calc_9 0xDB710641 0xffffffff 0xffffffff 1 1
-set_crc32_parameters calc_10 0x82608EDB 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_7 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_8 0x992C1A4C 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_9 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_10 0x992C1A4C 0xffffffff 0xffffffff 1 1
 
-set_crc32_parameters calc_11 0x741B8CD7 0xffffffff 0xffffffff 1 1
-set_crc32_parameters calc_12 0xEB31D82E 0xffffffff 0xffffffff 1 1
-set_crc32_parameters calc_13 0xD663B05 0xffffffff 0xffffffff 1 1
-set_crc32_parameters calc_14 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_11 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_12 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_13 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_14 0x741B8CD7 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_15 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_16 0xEDB88320 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_17 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_18 0x82608EDB 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_19 0x741B8CD7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_20 0xEB31D82E 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_21 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_22 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_23 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_24 0x992C1A4C 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_25 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_26 0x992C1A4C 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_27 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_28 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_29 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_30 0x741B8CD7 0xffffffff 0xffffffff 1 1
 
 register_write reg11 0 0
 register_read reg11 0

@@ -11,7 +11,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define LEN 16
+#define LEN 20
 
 int main(int argc, char* argv[])
 {
@@ -86,6 +86,7 @@ int main(int argc, char* argv[])
     uint8_t val[LEN];
     for (int i = 0; i < LEN; i++)
         val[i] = 0;
+    val[3] = atoi(argv[6]);
     memcpy(payload, val, LEN);
     pcpp::PayloadLayer newPayload(payload, LEN, 0);
 

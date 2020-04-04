@@ -232,27 +232,49 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 			meta.min2 = 32w0;
 	}
 
-	// action read3() {
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx31, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx32, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx33, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx34, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	reg31.read(meta.val31, meta.idx31);
-	// 	reg32.read(meta.val32, meta.idx32);
-	// 	reg33.read(meta.val33, meta.idx33);
-	// 	reg34.read(meta.val34, meta.idx34);
-	// }
+	action read3() {
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx31, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx32, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx33, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx34, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg31.read(meta.val31, meta.idx31);
+		reg32.read(meta.val32, meta.idx32);
+		reg33.read(meta.val33, meta.idx33);
+		reg34.read(meta.val34, meta.idx34);
+		meta.min3 = 32w2147483647;
+		if (meta.val31 != 0)
+			meta.min3 = meta.val31;
+		if (meta.val32 < meta.min3 && meta.val32 != 0)
+			meta.min3 = meta.val32;
+		if (meta.val33 < meta.min3 && meta.val33 != 0)
+			meta.min3 = meta.val33;
+		if (meta.val34 < meta.min3 && meta.val34 != 0)
+			meta.min3 = meta.val34;
+		if (meta.min3 == 32w2147483647)
+			meta.min3 = 32w0;
+	}
 
-	// action read4() {
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx41, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx42, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx43, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx44, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
-	// 	reg41.read(meta.val41, meta.idx41);
-	// 	reg42.read(meta.val42, meta.idx42);
-	// 	reg43.read(meta.val43, meta.idx43);
-	// 	reg44.read(meta.val44, meta.idx44);
-	// }
+	action read4() {
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx41, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx42, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx43, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		hash<bit<32>, bit<32>, tuple<bit<32>, bit<32>, bit<16>, bit<16>, bit<8>>, bit<32>>(meta.idx44, HashAlgorithm.crc32_custom, 32w0, { hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, hdr.udp.srcPort, hdr.udp.dstPort, hdr.ipv4.protocol }, BUCKET_SIZE);
+		reg41.read(meta.val41, meta.idx41);
+		reg42.read(meta.val42, meta.idx42);
+		reg43.read(meta.val43, meta.idx43);
+		reg44.read(meta.val44, meta.idx44);
+		meta.min4 = 32w2147483647;
+		if (meta.val41 != 0)
+			meta.min4 = meta.val41;
+		if (meta.val42 < meta.min4 && meta.val42 != 0)
+			meta.min4 = meta.val42;
+		if (meta.val43 < meta.min4 && meta.val43 != 0)
+			meta.min4 = meta.val43;
+		if (meta.val44 < meta.min4 && meta.val44 != 0)
+			meta.min4 = meta.val44;
+		if (meta.min4 == 32w2147483647)
+			meta.min4 = 32w0;
+	}
 
 	table invoke {
 		key = {
@@ -319,13 +341,15 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		}
 		else if (hdr.debug.isValid()) { // No if-else nesting more than two levels
 			
-			if (hdr.udp.srcPort == 12344) {
+			if (hdr.debug.ws == 5) {
 				read1();
 				read2();
-				hdr.debug.min1 = meta.min1;
-				hdr.debug.min2 = meta.min2;
-				hdr.debug.min3 = meta.min3;
-				hdr.debug.min4 = meta.min4;
+				read3();
+				read4();
+				hdr.debug.min1 = meta.idx11;
+				hdr.debug.min2 = meta.idx21;
+				hdr.debug.min3 = meta.idx31;
+				hdr.debug.min4 = meta.idx41;
 				return;
 			}
 
@@ -346,11 +370,8 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					meta.ws = (bit<32>)(departure >> LOG_T) & (NUM_SNAPSHOTS-1); // Both are almost equally precise
 					invoke.apply();
 
-					hdr.debug.min1 = meta.ws;
-					hdr.debug.min2 = meta.min1;
-					hdr.debug.min3 = meta.min2;
-					hdr.debug.min4 = meta.min3;
-
+					hdr.debug.ws = meta.ws;
+					
 				// }
 			// }
 		}		
