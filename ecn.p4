@@ -205,6 +205,8 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 			meta.min1 = meta.val13;
 		if (meta.val14 < meta.min1 && meta.val14 != 0)
 			meta.min1 = meta.val14;
+		if (meta.min1 == 32w2147483647)
+			meta.min1 = 32w0;
 					
 	}
 
@@ -226,6 +228,8 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 			meta.min2 = meta.val23;
 		if (meta.val24 < meta.min2 && meta.val24 != 0)
 			meta.min2 = meta.val24;
+		if (meta.min2 == 32w2147483647)
+			meta.min2 = 32w0;
 	}
 
 	// action read3() {
@@ -315,12 +319,25 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		}
 		else if (hdr.debug.isValid()) { // No if-else nesting more than two levels
 			
+			if (hdr.udp.srcPort == 12344) {
+				read1();
+				read2();
+				hdr.debug.min1 = meta.ws;
+				hdr.debug.min2 = meta.min1;
+				hdr.debug.min3 = meta.min2;
+				hdr.debug.min4 = meta.min3;
+				return;
+			}
+
 			hclone.apply();		
 			
 			// if (standard_metadata.enq_qdepth >= ECN_THRESHOLD) {
+				
 				// Mark for ECN
 				mark_ecn();
+				
 				// if (standard_metadata.deq_timedelta >= QD_THRESHOLD) {
+					
 					// id as contributing flow
 					bit<32> arrival = standard_metadata.enq_timestamp;
 					bit<48> departure = standard_metadata.egress_global_timestamp;
@@ -328,15 +345,6 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					// identify writing snapshot and hash into it
 					meta.ws = (bit<32>)(departure >> LOG_T) & (NUM_SNAPSHOTS-1); // Both are almost equally precise
 					invoke.apply();
-
-					// if (hdr.udp.srcPort == 12348) {
-						// read1();
-						// read2();
-						hdr.debug.min1 = meta.ws;
-						hdr.debug.min2 = meta.min1;
-						hdr.debug.min3 = meta.min2;
-						hdr.debug.min4 = meta.min3;
-					// }
 
 				// }
 			// }

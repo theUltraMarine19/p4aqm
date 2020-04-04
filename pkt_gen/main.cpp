@@ -83,10 +83,10 @@ int main(int argc, char* argv[])
     newUdpLayer.getUdpHeader()->length = htons(8+LEN);
 
     uint8_t* payload = (uint8_t*)malloc(LEN);
-    // uint8_t val[4];
-    // for (int i = 0; i < 4; i++)
-    //     val[i] = 0;
-    // memcpy(payload, val, 4);
+    uint8_t val[LEN];
+    for (int i = 0; i < LEN; i++)
+        val[i] = 0;
+    memcpy(payload, val, LEN);
     pcpp::PayloadLayer newPayload(payload, LEN, 0);
 
     // create a packet with initial capacity of 100 bytes (will grow automatically if needed)
