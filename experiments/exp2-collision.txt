@@ -1,0 +1,30 @@
+1 -> 0 0 0 2
+2 -> 0 0 2 3
+3 -> 0 1 0 1
+4 -> 0 0 3 3
+
+fl1 -> 2:2, 3:1, 4:2
+fl2 -> 2:2, 4:3
+fl3 -> 1:2, 2:1, 3:1, 4:2
+
+fl1 and fl3 collision due to BUCKET_SIZE 4
+fl1 reads reg1 as 1 (0) and reg2 as 3 (2)
+
+Increase BUCKET_SIZE to 8
+
+1 -> 0 1 0 0 0 0 0 *3*
+2 -> 0 0 0 1 0 0 0 1
+3 -> 0 0 0 0 0 0 0 *2*
+4 -> 0 0 2 3 0 0 0 2
+
+** fl2 and fl3 collided on reg1 and 3
+
+fl1 -> 1:1, 2:1, 4:3
+fl2 -> 1:2, 3:1, 4:2
+fl3 -> 1:1, 2:1, 3:1, 4:2
+
+fl1 and fl3 don't collide here
+fl1 reads reg1 as 1 and reg2 as 1.
+Collison with fl3 -> values would've been 2 and 2
+
+More width might help. More columns can help in same way

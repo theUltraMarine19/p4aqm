@@ -5,7 +5,7 @@
 
 // @30 us interval
 #define MAX_D_MIUS_A 64
-#define BUCKET_SIZE 4
+#define BUCKET_SIZE 8
 #define CELL_SIZE 32
 // power of 2 for now
 #define NUM_SNAPSHOTS 4
@@ -322,10 +322,10 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 			if (hdr.udp.srcPort == 12344) {
 				read1();
 				read2();
-				hdr.debug.min1 = meta.ws;
-				hdr.debug.min2 = meta.min1;
-				hdr.debug.min3 = meta.min2;
-				hdr.debug.min4 = meta.min3;
+				hdr.debug.min1 = meta.min1;
+				hdr.debug.min2 = meta.min2;
+				hdr.debug.min3 = meta.min3;
+				hdr.debug.min4 = meta.min4;
 				return;
 			}
 
@@ -345,6 +345,11 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					// identify writing snapshot and hash into it
 					meta.ws = (bit<32>)(departure >> LOG_T) & (NUM_SNAPSHOTS-1); // Both are almost equally precise
 					invoke.apply();
+
+					hdr.debug.min1 = meta.ws;
+					hdr.debug.min2 = meta.min1;
+					hdr.debug.min3 = meta.min2;
+					hdr.debug.min4 = meta.min3;
 
 				// }
 			// }
