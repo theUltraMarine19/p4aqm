@@ -5,7 +5,7 @@
 
 // @30 us interval
 #define MAX_D_MIUS_A 64
-#define BUCKET_SIZE 8
+#define BUCKET_SIZE 32
 #define CELL_SIZE 32
 // power of 2 for now
 #define NUM_SNAPSHOTS 4
@@ -346,10 +346,10 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 				read2();
 				read3();
 				read4();
-				hdr.debug.min1 = meta.idx11;
-				hdr.debug.min2 = meta.idx21;
-				hdr.debug.min3 = meta.idx31;
-				hdr.debug.min4 = meta.idx41;
+				hdr.debug.min1 = meta.min1;
+				hdr.debug.min2 = meta.min2;
+				hdr.debug.min3 = meta.min3;
+				hdr.debug.min4 = meta.min4;
 				return;
 			}
 
