@@ -90,6 +90,8 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg43;
 	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg44;
 
+	action no_op() {}
+
 	action mark_ecn() {
 		hdr.ipv4.ecn = 3;
 		hdr.ipv4.diffserv = (bit<6>)standard_metadata.enq_qdepth; // Queue length at enqueue
@@ -207,7 +209,6 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 			meta.min1 = meta.val14;
 		if (meta.min1 == 32w2147483647)
 			meta.min1 = 32w0;
-					
 	}
 
 	action read2() {
@@ -316,24 +317,48 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		}
 	}
 
+	action read1_0() {
+		read1();
+		meta.total = meta.min1;
+	}
+
+	action read2_0() {
+		read2();
+		meta.total = meta.min2;
+	}
+
+	action read3_0() {
+		read3();
+		meta.total = meta.min3;
+	}
+
+	action read4_0() {
+		read4();
+		meta.total = meta.min4;
+	}
+
 	action read1_1() {
 		read1();
-		read3();
+		read4();
+		meta.total = meta.min1+meta.min4;
 	}
 
 	action read2_1() {
 		read2();
 		read1();
+		meta.total = meta.min2+meta.min1;
 	}
 
 	action read3_1() {
 		read3();
 		read2();
+		meta.total = meta.min3+meta.min2;
 	}
 
 	action read4_1() {
 		read4();
 		read3();
+		meta.total = meta.min4+meta.min3;
 	}
 
 	table reader {
@@ -342,15 +367,17 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 			meta.diff : exact;
 		}
 		actions = {
-			read1;
-			read2;
-			read3;
-			read4;
+			read1_0;
+			read2_0;
+			read3_0;
+			read4_0;
 			read1_1;
 			read2_1;
 			read3_1;
 			read4_1;
+			no_op;
 		}
+		const default_action = no_op();
 	}
 
 
@@ -406,13 +433,21 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					
 					// identify writing snapshot and hash into it
 					meta.ws = dep_by_T & (NUM_SNAPSHOTS-1); // Both are almost equally precise
+					bit<32> as = (arrival >> LOG_T)+1;
+					if (meta.ws > as)
+						meta.diff = meta.ws - as;
+					else
+						meta.diff = meta.ws + NUM_SNAPSHOTS - as;
+
 					invoke.apply();
 
+					reader.apply();
+
 					hdr.debug.ws = meta.ws;
-					hdr.debug.min1 = (standard_metadata.deq_timedelta >> LOG_T);
-					hdr.debug.min2 = standard_metadata.deq_timedelta;
-					hdr.debug.min3 = (dep_by_T-1) & (NUM_SNAPSHOTS-1);
-					hdr.debug.min4 = (dep_by_T-2) & (NUM_SNAPSHOTS-1);
+					hdr.debug.min1 = as;
+					hdr.debug.min2 = meta.diff;
+					hdr.debug.min3 = meta.total;
+					hdr.debug.min4 = 0;
 					
 				// }
 			// }

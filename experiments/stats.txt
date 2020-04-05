@@ -1,0 +1,3 @@
+Pkt interval : 800 us -> MQD - 39 us
+			   300 us -> MQD - 250 us
+			   700 us ->	   94 us
