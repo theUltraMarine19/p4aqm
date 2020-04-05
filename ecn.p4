@@ -439,12 +439,12 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					// 	meta.diff = meta.ws - as;
 					// else
 					// 	meta.diff = meta.ws + NUM_SNAPSHOTS - as;
-					meta.diff = 1;					
+					meta.diff = 2;					
 
 					reader.apply();
 
 					hdr.debug.ws = meta.ws;
-					hdr.debug.min1 = meta.min1;
+					hdr.debug.min1 = meta.total;
 					hdr.debug.min2 = meta.min2;
 					hdr.debug.min3 = meta.min3;
 					hdr.debug.min4 = meta.min4;
