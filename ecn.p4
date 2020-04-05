@@ -4,8 +4,8 @@
 #include "parser.p4"
 
 // @30 us interval
-#define MAX_D_MIUS_A 64
-#define BUCKET_SIZE 32
+// #define MAX_D_MIUS_A 64
+#define BUCKET_SIZE 1024
 #define CELL_SIZE 32
 // Can read from atmost 2
 #define NUM_SNAPSHOTS 4 
@@ -433,7 +433,7 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					
 					// identify writing snapshot and hash into it
 					meta.ws = dep_by_T & (NUM_SNAPSHOTS-1); // Both are almost equally precise
-					bit<32> as = (arrival >> LOG_T)+1;
+					bit<32> as = ((arrival >> LOG_T)+1) & (NUM_SNAPSHOTS-1);
 					if (meta.ws > as)
 						meta.diff = meta.ws - as;
 					else
@@ -447,7 +447,7 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					hdr.debug.min1 = as;
 					hdr.debug.min2 = meta.diff;
 					hdr.debug.min3 = meta.total;
-					hdr.debug.min4 = 0;
+					hdr.debug.min4 = standard_metadata.deq_timedelta;
 					
 				// }
 			// }
