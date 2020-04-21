@@ -3,9 +3,9 @@ table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.1 => 1
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.3 => 3
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.4 => 4
 
-mirroring_add 500 1
-mirroring_add 400 3
-mirroring_add 300 4
+mirroring_add 500 5
+mirroring_add 400 7
+mirroring_add 300 8
 
 table_add hclone clone_h1 10.0.0.1 =>
 table_add hclone clone_h2 10.0.0.2 =>

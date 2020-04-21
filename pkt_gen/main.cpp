@@ -28,7 +28,7 @@ static void onPacketArrives(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, 
     if (udp != NULL) { // && ntohs(udp->getUdpHeader()->portSrc) == (uint16_t)12346) {
     //     rate_limit *= 1.2;
         fbp_cnt++;
-        printf("%d\n", ntohs(udp->getUdpHeader()->portSrc));  
+        // printf("%d\n", ntohs(udp->getUdpHeader()->portSrc));  
     }
 }
 
@@ -40,6 +40,8 @@ int main(int argc, char* argv[])
     std::string interfaceIPAddr(argv[1]);
     std::string destAddr(argv[2]);
     
+    std::string iface2(interfaceIPAddr);
+    iface2[5] = '1';
     // Get device info
     // ~~~~~~~~~~~~~~~
     // find the interface by IP address
@@ -47,6 +49,13 @@ int main(int argc, char* argv[])
     if (dev == NULL)
     {
         printf("Cannot find interface with IPv4 address of '%s'\n", interfaceIPAddr.c_str());
+        exit(1);
+    }
+
+    pcpp::PcapLiveDevice* dev1 = pcpp::PcapLiveDeviceList::getInstance().getPcapLiveDeviceByIp(iface2.c_str());
+    if (dev1 == NULL)
+    {
+        printf("Cannot find interface with IPv4 address of '%s'\n", iface2.c_str());
         exit(1);
     }
     
@@ -72,6 +81,12 @@ int main(int argc, char* argv[])
 
     // open the device before start capturing/sending packets
     if (!dev->open())
+    {
+        printf("Cannot open device\n");
+        exit(1);
+    }
+
+    if (!dev1->open())
     {
         printf("Cannot open device\n");
         exit(1);
@@ -118,7 +133,7 @@ int main(int argc, char* argv[])
     newPacket.addLayer(&newUdpLayer);
     newPacket.addLayer(&newPayload);
 
-    dev->startCapture(onPacketArrives, NULL);
+    dev1->startCapture(onPacketArrives, NULL);
 
     // t = clock();
     struct timeval end, start;
@@ -145,7 +160,7 @@ int main(int argc, char* argv[])
         }
 
     }
-    dev->stopCapture();
+    dev1->stopCapture();
     gettimeofday(&end, NULL);
     printf("%d packets sent\n", NUMBER_OF_PACKETS);
     long long int time_taken = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec); // in seconds

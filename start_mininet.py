@@ -50,14 +50,17 @@ class MyTopo(Topo):
 		for h in xrange(nb_hosts):
 			host = self.addHost('h%d' % (h + 1))
 
+		ctr = 1
 		for a, b in links:
 			# if a == "h2" and b == "s1":
 				# print "Slowing down h2-s1 link"
 				# self.addLink(a, b, bw=1)
 			# else:
-			self.addLink(a, b, bw=1000)
+			self.addLink(a, b, 1, ctr, bw=1000)
 			if a.startswith("h"):
-				self.addLink(a, b, intfName1='eth1')
+				self.addLink(a, b, 2, ctr+nb_hosts, intfName1='eth1')
+
+			ctr += 1
 
 def get_links(json_links):
     links = []
@@ -101,7 +104,7 @@ def main():
 		h.cmd("sysctl -w net.ipv6.conf.lo.disable_ipv6=1")
 		h.cmd("sysctl -w net.ipv4.tcp_congestion_control=reno") # This is default TCP congestion control mechanism
 
-		h.cmd('ifconfig eth1 10.0.10.' + str(n+1) + ' netmask 255.255.255.0')
+		h.cmd('ifconfig eth1 10.0.1.' + str(n+1) + ' netmask 255.255.255.0')
 		#h.cmd("iptables -I OUTPUT -p icmp --icmp-type destination-unreachable -j DROP") # drop ICMP packets saying "Host unreachable"
 
 	sleep(1)
