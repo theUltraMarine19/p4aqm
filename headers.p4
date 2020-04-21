@@ -98,7 +98,8 @@ struct metadata {
 
     bit<32> ws;
     bit<32> diff;
-    bit<32> total;    
+    bit<32> total;
+    bit<32> cnt;    
 }
 
 // Plain UDP packets

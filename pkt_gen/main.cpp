@@ -160,8 +160,9 @@ int main(int argc, char* argv[])
         }
 
     }
-    dev1->stopCapture();
     gettimeofday(&end, NULL);
+    // PCAP_SLEEP(5);  
+    dev1->stopCapture();
     printf("%d packets sent\n", NUMBER_OF_PACKETS);
     long long int time_taken = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec); // in seconds
     printf("%d\n", fbp_cnt);

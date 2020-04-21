@@ -17,6 +17,7 @@
 typedef bit<9>  egressSpec_t;
 
 const bit<19> ECN_THRESHOLD = 3;
+const bit<19> CONG_FRAC_INV = 4;
 const bit<32> E2E_CLONE_SESSION_ID_H1 = 500;
 const bit<32> E2E_CLONE_SESSION_ID_H2 = 450;
 const bit<32> E2E_CLONE_SESSION_ID_H3 = 400;
@@ -89,6 +90,8 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg42;
 	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg43;
 	register<bit<CELL_SIZE>>(BUCKET_SIZE) reg44;
+
+	register<bit<CELL_SIZE>>(1) cnt;
 
 	action no_op() {}
 
@@ -416,41 +419,45 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 				hdr.debug.min3 = meta.min3;
 				hdr.debug.min4 = meta.min4;
 				return;
-			}		
+			}
+
+			// increment pkt counter
+			cnt.read(meta.cnt, 0);
+			meta.cnt = meta.cnt + 1;
+			cnt.write(0, meta.cnt);
+
+			// id as contributing flow
+			bit<32> arrival = standard_metadata.enq_timestamp;
+			bit<48> departure = standard_metadata.egress_global_timestamp;
+			bit<32> dep_by_T = (bit<32>)(departure >> LOG_T);
 			
-			if (standard_metadata.deq_qdepth >= ECN_THRESHOLD) { // threshold on egress queue since egress proessing is more comp. intensive
+			// identify writing snapshot and hash into it
+			meta.ws = dep_by_T & (NUM_SNAPSHOTS-1); // Both are almost equally precise
+			bit<32> as = ((arrival >> LOG_T)+1) & (NUM_SNAPSHOTS-1);
+			invoke.apply();
+
+			// if (meta.ws > as)
+			// 	meta.diff = meta.ws - as;
+			// else
+			// 	meta.diff = meta.ws + NUM_SNAPSHOTS - as;
+			meta.diff = 2;					
+
+			reader.apply();		
+			
+			if (standard_metadata.deq_qdepth <= (CONG_FRAC_INV * (bit<19>)meta.total) && standard_metadata.deq_qdepth >= ECN_THRESHOLD && standard_metadata.deq_timedelta >= QD_THRESHOLD) { // threshold on egress queue since egress proessing is more comp. intensive
 				
 				hclone.apply();
 				
 				// Mark for ECN
 				mark_ecn();
-				
-				if (standard_metadata.deq_timedelta >= QD_THRESHOLD) {
-					
-					// id as contributing flow
-					bit<32> arrival = standard_metadata.enq_timestamp;
-					bit<48> departure = standard_metadata.egress_global_timestamp;
-					bit<32> dep_by_T = (bit<32>)(departure >> LOG_T);
-					
-					// identify writing snapshot and hash into it
-					meta.ws = dep_by_T & (NUM_SNAPSHOTS-1); // Both are almost equally precise
-					bit<32> as = ((arrival >> LOG_T)+1) & (NUM_SNAPSHOTS-1);
-					invoke.apply();
-					// if (meta.ws > as)
-					// 	meta.diff = meta.ws - as;
-					// else
-					// 	meta.diff = meta.ws + NUM_SNAPSHOTS - as;
-					meta.diff = 2;					
 
-					reader.apply();
-					hdr.debug.ws = 32w1;	
-					
-				}
+				hdr.debug.ws = 1;				
+				
 			}
 
 			hdr.debug.min1 = standard_metadata.deq_timedelta;
-			hdr.debug.min2 = (bit<32>)standard_metadata.egress_global_timestamp - standard_metadata.enq_timestamp;
-			hdr.debug.min3 = (bit<32>)standard_metadata.enq_qdepth;
+			hdr.debug.min2 = meta.ws;
+			hdr.debug.min3 = as;
 			hdr.debug.min4 = (bit<32>)standard_metadata.deq_qdepth;
 		}		
 		

@@ -56,9 +56,9 @@ class MyTopo(Topo):
 				# print "Slowing down h2-s1 link"
 				# self.addLink(a, b, bw=1)
 			# else:
-			self.addLink(a, b, 1, ctr, bw=1000)
+			self.addLink(a, b, 1, ctr, bw=500)
 			if a.startswith("h"):
-				self.addLink(a, b, 2, ctr+nb_hosts, intfName1='eth1')
+				self.addLink(a, b, 2, ctr+nb_hosts, intfName1='eth1', bw=1000)
 
 			ctr += 1
 
