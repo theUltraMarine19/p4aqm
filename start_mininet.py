@@ -4,7 +4,7 @@ from mininet.net import Mininet
 from mininet.topo import Topo
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
-from mininet.link import TCLink
+from mininet.link import TCLink, Link
 from mininet.node import OVSController
 
 from p4_mininet import P4Switch, P4Host
@@ -51,11 +51,13 @@ class MyTopo(Topo):
 			host = self.addHost('h%d' % (h + 1))
 
 		for a, b in links:
-			if a == "h2" and b == "s1":
-				print "Slowing down h2-s1 link"
-				self.addLink(a, b, bw=1)
-			else:
-				self.addLink(a, b)
+			# if a == "h2" and b == "s1":
+				# print "Slowing down h2-s1 link"
+				# self.addLink(a, b, bw=1)
+			# else:
+			self.addLink(a, b, bw=1000)
+			if a.startswith("h"):
+				self.addLink(a, b, intfName1='eth1')
 
 def get_links(json_links):
     links = []
@@ -98,6 +100,8 @@ def main():
 		h.cmd("sysctl -w net.ipv6.conf.default.disable_ipv6=1")
 		h.cmd("sysctl -w net.ipv6.conf.lo.disable_ipv6=1")
 		h.cmd("sysctl -w net.ipv4.tcp_congestion_control=reno") # This is default TCP congestion control mechanism
+
+		h.cmd('ifconfig eth1 10.0.10.' + str(n+1) + ' netmask 255.255.255.0')
 		#h.cmd("iptables -I OUTPUT -p icmp --icmp-type destination-unreachable -j DROP") # drop ICMP packets saying "Host unreachable"
 
 	sleep(1)

@@ -16,7 +16,7 @@
 
 typedef bit<9>  egressSpec_t;
 
-const bit<19> ECN_THRESHOLD = 5;
+const bit<19> ECN_THRESHOLD = 3;
 const bit<32> E2E_CLONE_SESSION_ID_H1 = 500;
 const bit<32> E2E_CLONE_SESSION_ID_H2 = 450;
 const bit<32> E2E_CLONE_SESSION_ID_H3 = 400;
@@ -405,6 +405,7 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		}
 		else if (hdr.debug.isValid()) { // No if-else nesting more than two levels
 			
+			// just to check the register values
 			if (hdr.debug.ws == 5) {
 				read1();
 				read2();
@@ -415,16 +416,16 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 				hdr.debug.min3 = meta.min3;
 				hdr.debug.min4 = meta.min4;
 				return;
-			}
-
-			hclone.apply();		
+			}		
 			
-			// if (standard_metadata.enq_qdepth >= ECN_THRESHOLD) {
+			if (standard_metadata.deq_qdepth >= ECN_THRESHOLD) { // threshold on egress queue since egress proessing is more comp. intensive
+				
+				hclone.apply();
 				
 				// Mark for ECN
 				mark_ecn();
 				
-				// if (standard_metadata.deq_timedelta >= QD_THRESHOLD) {
+				if (standard_metadata.deq_timedelta >= QD_THRESHOLD) {
 					
 					// id as contributing flow
 					bit<32> arrival = standard_metadata.enq_timestamp;
@@ -442,19 +443,19 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 					meta.diff = 2;					
 
 					reader.apply();
-
-					hdr.debug.ws = meta.ws;
-					hdr.debug.min1 = meta.total;
-					hdr.debug.min2 = meta.min2;
-					hdr.debug.min3 = meta.min3;
-					hdr.debug.min4 = meta.min4;
+					hdr.debug.ws = 32w1;	
 					
-				// }
-			// }
+				}
+			}
+
+			hdr.debug.min1 = standard_metadata.deq_timedelta;
+			hdr.debug.min2 = (bit<32>)standard_metadata.egress_global_timestamp - standard_metadata.enq_timestamp;
+			hdr.debug.min3 = (bit<32>)standard_metadata.enq_qdepth;
+			hdr.debug.min4 = (bit<32>)standard_metadata.deq_qdepth;
 		}		
 		
 	} 
-}
+}	
 
 V1Switch(c_parser(), vrfy(), ingress(), egress(), updt(), c_deparser()) main;
 

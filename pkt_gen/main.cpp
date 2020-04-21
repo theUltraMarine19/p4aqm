@@ -15,11 +15,28 @@
 
 #define LEN 20
 
+float rate_limit = 1.0;
+int fbp_cnt = 0;
+
+static void onPacketArrives(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, void* cookie)
+{
+    
+    // parsed the raw packet
+    pcpp::Packet parsedPacket(packet);
+
+    pcpp::UdpLayer* udp = parsedPacket.getLayerOfType<pcpp::UdpLayer>();
+    if (udp != NULL) { // && ntohs(udp->getUdpHeader()->portSrc) == (uint16_t)12346) {
+    //     rate_limit *= 1.2;
+        fbp_cnt++;
+        printf("%d\n", ntohs(udp->getUdpHeader()->portSrc));  
+    }
+}
+
 int main(int argc, char* argv[])
 {
 
-	// Packet Creation
-	// ~~~~~~~~~~~~~~~
+    // Packet Creation
+    // ~~~~~~~~~~~~~~~
     std::string interfaceIPAddr(argv[1]);
     std::string destAddr(argv[2]);
     
@@ -101,18 +118,23 @@ int main(int argc, char* argv[])
     newPacket.addLayer(&newUdpLayer);
     newPacket.addLayer(&newPayload);
 
+    dev->startCapture(onPacketArrives, NULL);
+
     // t = clock();
     struct timeval end, start;
     gettimeofday(&start, NULL);
 
     for (i = 0; i < NUMBER_OF_PACKETS; i++)
     {   
+        rate_limit -= (rate_limit - 1.0)*0.2;
+
         newIPLayer.getIPv4Header()->headerChecksum = htons(i);
         
         // compute all calculated fields
         // newPacket.computeCalculateFields();
 
-        std::this_thread::sleep_for(std::chrono::microseconds(atoi(argv[5])));
+        // printf("%f\n" , rate_limit);
+        std::this_thread::sleep_for(std::chrono::microseconds(atoi(argv[5])) * rate_limit);
 
         // PCAP_SLEEP(atof(argv[5]));
         
@@ -121,9 +143,12 @@ int main(int argc, char* argv[])
             printf("Couldn't send packet\n");
             exit(1);
         }
+
     }
+    dev->stopCapture();
     gettimeofday(&end, NULL);
     printf("%d packets sent\n", NUMBER_OF_PACKETS);
     long long int time_taken = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec); // in seconds
+    printf("%d\n", fbp_cnt);
     printf("Sending took %lld microseconds \n", time_taken);
 }
