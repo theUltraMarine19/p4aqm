@@ -3,13 +3,14 @@
 #include "headers.p4"
 #include "parser.p4"
 
+// @30 us interval
+// #define MAX_D_MIUS_A 64
 #define BUCKET_SIZE 128
 #define CELL_SIZE 32
-
 // Can read from atmost 2
 #define NUM_SNAPSHOTS 4 
-#define NUM_PKTS_PER_SNAPSHOT 128
-#define LOG_NUM_PKTS_PER_SNAPSHOT 7
+#define T 32
+#define LOG_T 5
 
 #define COMPUTE(num) compute##num() 
 
@@ -55,6 +56,8 @@ control ingress(inout headers hdr, inout metadata meta, inout standard_metadata_
 		if (hdr.ipv4.isValid())
 			ipv4_fwd.apply();		
 	}
+
+
 
 }
 
@@ -481,7 +484,7 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 		}
 		else if (hdr.debug.isValid()) { // No if-else nesting more than two levels
 			
-			// just to check the register values (Do it from switch_CLI)
+			// just to check the register values
 			if (hdr.debug.ws == 5) {
 				read1();
 				read2();
@@ -499,19 +502,27 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 			meta.cnt = meta.cnt + 1;
 			cnt.write(0, meta.cnt);
 
+			// id as contributing flow
+			bit<32> arrival = standard_metadata.enq_timestamp;
+			bit<48> departure = standard_metadata.egress_global_timestamp;
+			bit<32> dep_by_T = (bit<32>)departure >> LOG_T;
+			
 			// identify writing snapshot and hash into it
-			meta.ws = (meta.cnt >> LOG_NUM_PKTS_PER_SNAPSHOT) & (NUM_SNAPSHOTS-1); // Both are almost equally precise
-			bit<32> as = ((meta.cnt - (bit<32>)standard_metadata.enq_qdepth) >> LOG_NUM_PKTS_PER_SNAPSHOT) & (NUM_SNAPSHOTS-1);
+			meta.ws = dep_by_T & (NUM_SNAPSHOTS-1); // Both are almost equally precise
+			bit<32> as = (arrival >> LOG_T) & (NUM_SNAPSHOTS-1);
 			invoke.apply();
+
+			// bit<32> cs = (ws+1) & (NUM_SNAPSHOTS-1); // Clearing stage
 
 			if (meta.ws >= as)
 				meta.diff = meta.ws - as-1;
 			else
 				meta.diff = meta.ws + NUM_SNAPSHOTS - as-1;
-			
+			// meta.diff = 2;					
+
 			reader.apply();		
 			
-			if (standard_metadata.enq_qdepth <= (CONG_FRAC_INV * (bit<19>)meta.total) && standard_metadata.deq_qdepth >= ECN_THRESHOLD) { // threshold on egress queue since egress proessing is more comp. intensive
+			if (standard_metadata.deq_qdepth <= (CONG_FRAC_INV * (bit<19>)meta.total) && standard_metadata.deq_qdepth >= ECN_THRESHOLD && standard_metadata.deq_timedelta >= QD_THRESHOLD) { // threshold on egress queue since egress proessing is more comp. intensive
 				
 				hclone.apply();
 				

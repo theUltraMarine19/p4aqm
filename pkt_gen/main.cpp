@@ -25,8 +25,8 @@ static void onPacketArrives(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, 
     pcpp::Packet parsedPacket(packet);
 
     pcpp::UdpLayer* udp = parsedPacket.getLayerOfType<pcpp::UdpLayer>();
-    if (udp != NULL) { // && ntohs(udp->getUdpHeader()->portSrc) == (uint16_t)12346) {
-    //     rate_limit *= 1.2;
+    if (udp != NULL && ntohs(udp->getUdpHeader()->portSrc) == (uint16_t)12346) {
+        rate_limit = 2.0;
         fbp_cnt++;
         // printf("%d\n", ntohs(udp->getUdpHeader()->portSrc));  
     }
@@ -141,14 +141,14 @@ int main(int argc, char* argv[])
 
     for (i = 0; i < NUMBER_OF_PACKETS; i++)
     {   
-        rate_limit -= (rate_limit - 1.0)*0.2;
+        rate_limit -= (rate_limit - 1.0)*0.02;
 
         newIPLayer.getIPv4Header()->headerChecksum = htons(i);
         
         // compute all calculated fields
         // newPacket.computeCalculateFields();
 
-        // printf("%f\n" , rate_limit);
+        printf("%f\n" , rate_limit);
         std::this_thread::sleep_for(std::chrono::microseconds(atoi(argv[5])) * rate_limit);
 
         // PCAP_SLEEP(atof(argv[5]));

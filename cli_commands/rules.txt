@@ -1,3 +1,5 @@
+set_queue_depth 256
+
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.2 => 2
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.1 => 1
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.3 => 3
@@ -16,6 +18,11 @@ table_add invoke compute1 0 =>
 table_add invoke compute2 1 =>
 table_add invoke compute3 2 =>
 table_add invoke compute4 3 =>
+
+table_add clear clear1 3 =>
+table_add clear clear2 0 =>
+table_add clear clear3 1 =>
+table_add clear clear4 2 =>
 
 table_add reader read1_0 0 1 =>
 table_add reader read2_0 1 1 =>
