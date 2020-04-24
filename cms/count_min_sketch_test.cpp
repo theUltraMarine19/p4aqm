@@ -17,11 +17,21 @@ int main(int argc, char **argv) {
     }
     unsigned int i, total = 0;
 
+    // flow 1 with key 5
     for (int i = 0; i < 4; i++) {
         c[0].update(5, 1);
     }
 
-    cout << c[0].estimate(5) << endl;
+    // flow 2 with id 
+    for (int i = 0; i < 100; i++) {
+        c[0].update(7, 1);
+    }
+
+    cout << "Est. of flow with key 5: " << c[0].estimate(5) << endl;
+    cout << "Est. of flow with key 7: " << c[0].estimate(7) << endl;
+
+    cout << "=== Snapshot 0 === \n";
+    c[0].view_snapshot();
 
     return 0;
 }

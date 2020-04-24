@@ -81,3 +81,12 @@ unsigned int CountMinSketch::estimate(int item) {
     }
     return minval;
 }
+
+void CountMinSketch::view_snapshot() {
+    for (int i = 0; i < d; i++) {
+        for (int j = 0; j < w; j++) {
+            cout << C[i][j] << " ";
+        }
+        cout << endl;
+    }
+}

@@ -31,6 +31,8 @@ public:
   // return total count
   unsigned int totalcount();
 
+  void view_snapshot();
+
   // destructor
   ~CountMinSketch();
 };
