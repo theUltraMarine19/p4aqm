@@ -20,7 +20,7 @@ class ProducerThread(Thread):
         # sum_pkt_times = 2.0
         # times = 0
 
-        for (pkt, meta) in RawPcapReader('univ1_trace/ap_00000_20091217102604'):
+        for (pkt, meta) in RawPcapReader('univ1_trace/long.pcap'):
             
             if ctr == 0:
                 start_time = time.time()
@@ -35,7 +35,7 @@ class ProducerThread(Thread):
                 
                 interval = time.time() - start_time
                 
-                print ctr, interval, pkt_time, pkt_time*replay - interval
+                # print ctr, interval, pkt_time, pkt_time*replay - interval
 
                 # if (interval < pkt_time*replay):
                 #     print (pkt_time*replay - interval)*0.5-0.00217390060425
@@ -45,7 +45,7 @@ class ProducerThread(Thread):
             
             queue.put(len(pkt))
             
-            # print "Produced", ctr, len(pkt)
+            print "Produced pkt no ", ctr, " of size ", len(pkt), " bytes"
             
             ctr += 1
             # if (ctr > 1000):
@@ -61,10 +61,11 @@ class ConsumerThread(Thread):
         flag = 0
         while True:
             tot = 0
+            cnt = 0
             start_time = time.time()
-            print "Iter starts :", start_time
+            # print "Iter starts :", start_time
             
-            print "Q len from consumer: ", len(queue)
+            print "Q len from consumer: ", queue.qsize()
             
             while queue.qsize() > 0 and tot < 125:  # 1 Gbps outgoing link speed
                 # print len(queue)
@@ -75,18 +76,20 @@ class ConsumerThread(Thread):
                     break
                 elif ele + tot < 125:
                     tot += ele
+                    cnt += 1
                 else:
                     queue.put(ele - (125 - tot))
                     tot += (125 - tot)
 
             # time.sleep(1e-5)
 
-                queue.task_done()
-            print "Consumed" 
-            time.sleep(1)
-            print "Iter time: ", time.time() - start_time
+            # queue.task_done()
             
-            if flag == 1:
+            print "Consumed ", cnt, " pkts" 
+            time.sleep(2.5e-2)
+            # print "Iter time: ", time.time() - start_time
+            
+            if flag == 1 and queue.qsize() == 0:
                 break
 
 ProducerThread().start()
