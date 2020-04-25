@@ -479,7 +479,8 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 
             // hdr.udp.checksum = (bit<16>)standard_metadata.deq_timedelta;
 		}
-		else if (hdr.debug.isValid()) { // No if-else nesting more than two levels
+		// No if-else nesting more than two levels
+		else if (hdr.debug.isValid()) { // ALLOWS ONLY CUSTOM HDR PKTS
 			
 			// just to check the register values (Do it from switch_CLI)
 			if (hdr.debug.ws == 5) {

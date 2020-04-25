@@ -6,6 +6,11 @@
 # include <boost/crc.hpp>
 #include <typeinfo>
 # include "count_min_sketch.hpp"
+// # include "Packet.h"
+// #include "IPv4Layer.h"
+// #include "TcpLayer.h"
+// #include "UdpLayer.h"
+
 using namespace std;
 
 CountMinSketch::CountMinSketch() {}
@@ -70,12 +75,48 @@ void CountMinSketch::update(int item, int c) {
     }
 }
 
+// countMinSketch update item count (int)
+void CountMinSketch::update(uint32_t srcIP, uint32_t dstIP, uint8_t protocol, uint16_t srcPort, uint16_t dstPort) {
+    total++;
+
+    for (unsigned int j = 0; j < d; j++) {
+        boost::crc_basic<32> result(hashes[j], 0xFFFFFFFF, 0xFFFFFFFF, true, true);
+        
+        result.process_bytes(&srcIP, 4); // 4 bytes
+        result.process_bytes(&dstIP, 4); // 4 bytes
+        result.process_bytes(&protocol, 1); // 1 bytes
+        result.process_bytes(&srcPort, 2); // 2 bytes
+        result.process_bytes(&dstPort, 2); // 2 bytes
+        
+        int idx = result.checksum() % w;
+        // cout << idx << "\n";
+        C[j][idx] = C[j][idx]++;
+    }
+}
+
 // CountMinSketch estimate item count (int)
 unsigned int CountMinSketch::estimate(int item) {
     int minval = numeric_limits<int>::max();
     for (unsigned int j = 0; j < d; j++) {
         boost::crc_basic<32> result(hashes[j], 0xFFFFFFFF, 0xFFFFFFFF, true, true);
         result.process_bytes(&item, 4); // 4 bytes
+        int idx = result.checksum() % w;
+        minval = MIN(minval, C[j][idx]);
+    }
+    return minval;
+}
+
+unsigned int CountMinSketch::estimate(uint32_t srcIP, uint32_t dstIP, uint8_t protocol, uint16_t srcPort, uint16_t dstPort) {
+    int minval = numeric_limits<int>::max();
+    for (unsigned int j = 0; j < d; j++) {
+        boost::crc_basic<32> result(hashes[j], 0xFFFFFFFF, 0xFFFFFFFF, true, true);
+        
+        result.process_bytes(&srcIP, 4); // 4 bytes
+        result.process_bytes(&dstIP, 4); // 4 bytes
+        result.process_bytes(&protocol, 1); // 1 bytes
+        result.process_bytes(&srcPort, 2); // 2 bytes
+        result.process_bytes(&dstPort, 2); // 2 bytes
+
         int idx = result.checksum() % w;
         minval = MIN(minval, C[j][idx]);
     }
