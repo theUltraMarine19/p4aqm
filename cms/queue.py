@@ -45,7 +45,7 @@ class ProducerThread(Thread):
             
             queue.put(len(pkt))
             
-            print "Produced pkt no ", ctr, " of size ", len(pkt), " bytes"
+            # print "Produced pkt no ", ctr, " of size ", len(pkt), " bytes"
             
             ctr += 1
             # if (ctr > 1000):
@@ -59,14 +59,18 @@ class ConsumerThread(Thread):
     def run(self):
         global queue
         flag = 0
+        ctr = 0
+        start_time = time.time()
         while True:
             tot = 0
             cnt = 0
-            start_time = time.time()
             # print "Iter starts :", start_time
+            if (ctr % 10 == 0):
+                print queue.qsize()
+
+            # print "Q len from consumer: ", queue.qsize()
             
-            print "Q len from consumer: ", queue.qsize()
-            
+
             while queue.qsize() > 0 and tot < 125:  # 1 Gbps outgoing link speed
                 # print len(queue)
                 
@@ -85,8 +89,9 @@ class ConsumerThread(Thread):
 
             # queue.task_done()
             
-            print "Consumed ", cnt, " pkts" 
-            time.sleep(2.5e-2)
+            # print "Consumed ", cnt, " pkts" 
+            time.sleep(1e-2)
+            ctr += 1
             # print "Iter time: ", time.time() - start_time
             
             if flag == 1 and queue.qsize() == 0:
