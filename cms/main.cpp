@@ -7,7 +7,7 @@
 #include <iostream>
 #include <pthread.h>
 #include <semaphore.h>
-#include <queue>
+#include <deque>
 #include <chrono>
 #include <ratio>
 #include <thread>
@@ -15,11 +15,12 @@
 
 using namespace std;
 
-queue<int> q;
+deque<int> q;
 sem_t full;
 pthread_mutex_t mutex;
 bool stop = false;
 int out_limit = 125;
+int replay = 100;
 
 int h = 4, w = 4, d = 4;
 int hashes[][4] = { { 0x04C11DB7, 0x0DB88320, 0x0B710641, 0x02608EDB }, { 0x041B8CD7, 0x0B31D82E, 0x0D663B05, 0x0A0DC66B }, { 0x02583499, 0x092C1A4C, 0x0D663B05, 0x0A0DC66B }, { 0x02583499, 0x04C11DB7, 0x0B710641, 0x041B8CD7 } };   
@@ -42,23 +43,33 @@ void* produce(void* arg) {
     pcpp::RawPacket rawPacket;
     int ctr = 0;
     long start_time, pkt_time = 0;
+
     while (reader.getNextPacket(rawPacket))
     {
-        start = chrono::high_resolution_clock::now();
         if (ctr == 0) {
             timespec ts = rawPacket.getPacketTimeStamp();
-            start_time = ts.tv_sec * 1e6 + ts.tv_nsec * 1e-3;
+            start_time = ts.tv_sec * 1e6 + ts.tv_nsec * 1e-3; // microseconds
+            start = chrono::high_resolution_clock::now();
         }
         else {
             timespec ts = rawPacket.getPacketTimeStamp();
-            pkt_time = ts.tv_sec * 1e6 + ts.tv_nsec * 1e-3 - start_time;
+            pkt_time = ts.tv_sec * 1e6 + ts.tv_nsec * 1e-3 - start_time; // microseconds
+            // start_time = ts.tv_sec * 1e6 + ts.tv_nsec * 1e-3; // microseconds
+            end = chrono::high_resolution_clock::now();
+            duration_sec = chrono::duration_cast<chrono::duration<double, milli>>(end - start);
+            // cout << duration_sec.count()*1e3 << " " << pkt_time << endl;
+            int durn = (pkt_time*replay - duration_sec.count()*1e3)-80;
+            // cout << "Waiting time " << durn << endl;
+            // start = chrono::high_resolution_clock::now();
+            std::this_thread::sleep_for(std::chrono::microseconds(durn));
         }
-        cout << pkt_time << endl;
+        
 
         pthread_mutex_lock(&mutex);
-        q.push(rawPacket.getRawDataLen());
+        q.push_back(rawPacket.getRawDataLen());
+        // cout << rawPacket.getRawDataLen() << endl;
         pthread_mutex_unlock(&mutex);
-        sem_post(&full);
+        // sem_post(&full);
 
         pcpp::Packet parsedPacket(&rawPacket);
 
@@ -88,9 +99,6 @@ void* produce(void* arg) {
         ctr++;
         // cout << "Produced pkt " << ctr << " of " << rawPacket.getRawDataLen() << " bytes\n";
 
-        end = chrono::high_resolution_clock::now();
-        duration_sec = chrono::duration_cast<chrono::duration<double, milli>>(end - start);
-
         // cout << duration_sec.count() << endl;
     
     }
@@ -103,41 +111,44 @@ void* produce(void* arg) {
 }
 
 void* consume(void* arg) {
-    int tot = 0, cnt = 0;
+    int tot = 0, cnt = 0, ctr = 0;
 
     while(1) {
         
         tot = 0;
         cnt = 0;
 
-        sem_wait(&full); // wiait until queue has something
+        // sem_wait(&full); // wait until queue has something
         pthread_mutex_lock(&mutex);
-        cout << q.size() << endl;
+        if (ctr % 4 == 0)
+            cout << q.size() << endl;
         
         while (q.size() > 0 && tot < out_limit) { // 1 Gbps outgoing link speed
                 
             int x = q.front();
             // cout << x << endl;
-            q.pop();
+            q.pop_front();
             
             if (x + tot < out_limit) {
                 tot += x;
                 cnt += 1;
             }
             else {
-                q.push(x - (out_limit - tot));
+                q.push_front(x - (out_limit - tot));
                 tot += (out_limit - tot);
 
             }
             
         }
         pthread_mutex_unlock(&mutex);
-        cout << "Consumed " << cnt << " pkts\n"; 
+        // cout << "Consumed " << cnt << " pkts\n"; 
 
-        std::this_thread::sleep_for(std::chrono::microseconds(250));
+        std::this_thread::sleep_for(std::chrono::microseconds(25000));
 
         if (stop && q.size() == 0)
-            break;        
+            break;  
+
+        ctr += 1;      
         
     }
 }
@@ -153,14 +164,14 @@ int main(int argc, char* argv[])
     sem_init(&full, 0, 0);
     pthread_mutex_init(&mutex, NULL);
     pthread_create(&producer, NULL, produce, NULL);
-    // pthread_create(&consumer, NULL, consume, NULL);
+    pthread_create(&consumer, NULL, consume, NULL);
 
     pthread_join(producer, NULL);
-    cout << "Producer done!\n";
-    // pthread_join(consumer, NULL);
-    cout << "Consumer done!\n";
+    // cout << "Producer done!\n";
+    pthread_join(consumer, NULL);
+    // cout << "Consumer done!\n";
     
-    cout << "Exiting!!\n";
+    // cout << "Exiting!!\n";
 
     
     return 0;
