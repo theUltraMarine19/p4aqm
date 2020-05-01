@@ -2,6 +2,8 @@
 
 /** CountMinSketch class definition here **/
 class CountMinSketch {
+  
+public:
   // width, depth 
   unsigned int w,d;
   
@@ -15,7 +17,7 @@ class CountMinSketch {
   // contains two element arrays {aj,bj}
   int *hashes;
 
-public:
+
   // default constructor
   CountMinSketch();
 
