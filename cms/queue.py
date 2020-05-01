@@ -7,7 +7,8 @@ from collections import deque
 
 # No max size of queue to allow unlimited buffering, prevents pkt drops
 queue = deque()
-replay = 100
+replay = 1
+out_limit = 88
 
 class ProducerThread(Thread):
     def run(self):
@@ -66,24 +67,24 @@ class ConsumerThread(Thread):
             tot = 0
             cnt = 0
             # print "Iter starts :", start_time
-            if (ctr % 4 == 0):
-                print len(queue)
+            # if (ctr % 4 == 0):
+            print len(queue)
 
             # print "Q len from consumer: ", len(queue)
             
 
-            while len(queue) > 0 and tot < 125:  # 1 Gbps outgoing link speed
+            while len(queue) > 0 and tot < out_limit:  # 1 Gbps outgoing link speed
                 # print len(queue)
                 
                 ele = queue.popleft()
                 if (ele == -1):
                     flag = 1
                     break
-                elif ele + tot < 125:
+                elif ele + tot < out_limit:
                     tot += ele
                     cnt += 1
                 else:
-                    queue.appendleft(ele - (125 - tot))
+                    queue.appendleft(ele - (out_limit - tot))
                     # tot += (125 - tot)
                     break
 
@@ -92,7 +93,7 @@ class ConsumerThread(Thread):
             # queue.task_done()
             
             # print "Consumed ", cnt, " pkts" 
-            time.sleep(2.5e-2)
+            time.sleep(5e-4)
             ctr += 1
             # print "Iter time: ", time.time() - start_time
             

@@ -52,12 +52,12 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    pcpp::PcapLiveDevice* dev1 = pcpp::PcapLiveDeviceList::getInstance().getPcapLiveDeviceByIp(iface2.c_str());
-    if (dev1 == NULL)
-    {
-        printf("Cannot find interface with IPv4 address of '%s'\n", iface2.c_str());
-        exit(1);
-    }
+    // pcpp::PcapLiveDevice* dev1 = pcpp::PcapLiveDeviceList::getInstance().getPcapLiveDeviceByIp(iface2.c_str());
+    // if (dev1 == NULL)
+    // {
+    //     printf("Cannot find interface with IPv4 address of '%s'\n", iface2.c_str());
+    //     exit(1);
+    // }
     
     // before capturing packets let's print some info about this interface
     // printf("Interface info:\n");
@@ -86,11 +86,11 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    if (!dev1->open())
-    {
-        printf("Cannot open device\n");
-        exit(1);
-    }
+    // if (!dev1->open())
+    // {
+    //     printf("Cannot open device\n");
+    //     exit(1);
+    // }
 
     printf("\nStarting pkt creation...\n");
 
@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
     newPacket.addLayer(&newUdpLayer);
     newPacket.addLayer(&newPayload);
 
-    dev1->startCapture(onPacketArrives, NULL);
+    // dev1->startCapture(onPacketArrives, NULL);
 
     // t = clock();
     struct timeval end, start;
@@ -162,7 +162,7 @@ int main(int argc, char* argv[])
     }
     gettimeofday(&end, NULL);
     // PCAP_SLEEP(5);  
-    dev1->stopCapture();
+    // dev1->stopCapture();
     printf("%d packets sent\n", NUMBER_OF_PACKETS);
     long long int time_taken = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec); // in seconds
     printf("%d\n", fbp_cnt);

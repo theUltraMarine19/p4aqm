@@ -3,7 +3,7 @@
 ###--- Remove stale json
 for j in `seq 1 1`	# Change!
 do
-	rm ./json/ecn.json  # Change!
+	rm ./json/test.json  # Change!
 done
 
 ###--- Setup Environment
@@ -38,7 +38,7 @@ cd ..
 for j in `seq 1 $(echo $(head -n 1 topology/topo.txt) | cut -d ' ' -f 2)`
 do
     # cd p4/   # Change!
-    $P4C --target bmv2 --arch v1model ecn.p4 ; mv ecn.json json/ ; rm ecn.p4i   # Change!
+    $P4C --target bmv2 --arch v1model test.p4 ; mv test.json json/ ; rm test.p4i   # Change!
     # cd -     # Change!  
 done
 
@@ -47,5 +47,5 @@ done
 # Change! --json
 sudo PYTHONPATH=$PYTHONPATH:$BMV2_PATH/mininet/ python start_mininet.py \
     --behavioral-exe $SWITCH_PATH \
-    --json ./json/ecn \
+    --json ./json/test \
     --cli $CLI_PATH

@@ -52,13 +52,13 @@ class MyTopo(Topo):
 
 		ctr = 1
 		for a, b in links:
-			# if a == "h2" and b == "s1":
+			if a == "h2" and b == "s1":
 				# print "Slowing down h2-s1 link"
-				# self.addLink(a, b, bw=1)
-			# else:
-			self.addLink(a, b, 1, ctr, bw=1000)
-			if a.startswith("h"):
-				self.addLink(a, b, 2, ctr+nb_hosts, intfName1='eth1', bw=1000)
+				self.addLink(a, b, 1, ctr, bw=1)
+			else:
+				self.addLink(a, b, 1, ctr, bw=1000)
+			# if a.startswith("h"):
+			# 	self.addLink(a, b, 2, ctr+nb_hosts, intfName1='eth1', bw=10)
 
 			ctr += 1
 
@@ -114,7 +114,7 @@ def main():
 			   "--thrift-port", str(_THRIFT_BASE_PORT + i)] #, "--log-file", "switch"+str(i+1) +".log", "--log-flush"]
 		
 		# push all the same rules for 3 switches to runtime_CLI here
-		with open("./cli_commands/rules.txt", "r") as f:
+		with open("./cli_commands/rules_test.txt", "r") as f:
 			# print " ".join(cmd)
 			try:
 				output = subprocess.check_output(cmd, stdin = f)

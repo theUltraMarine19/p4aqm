@@ -4,6 +4,7 @@
 typedef bit<48> macAddr_t;
 typedef bit<32> ip4Addr_t;
 
+const bit<16> TYPE_VLAN = 0x8100;
 const bit<16> TYPE_IPV4 = 0x0800;
 const bit<8> PROTO_UDP = 17;
 const bit<8> PROTO_TCP = 0x06;
@@ -33,17 +34,19 @@ header ipv4_t {
 }
 
 // UDP L4 header
-header udp_t {
-    bit<16> srcPort;
-    bit<16> dstPort;
-    bit<16> length_;
-    bit<16> checksum;
+header vlan_t {
+    bit<3> priority;
+    bit<1> dei;
+    bit<12> vlanid;
+    bit<16> tpid;
 }
+
 struct metadata {
     // empty
 }
 
 struct headers {
     ethernet_t ethernet;
+    vlan_t vlan;
     ipv4_t     ipv4;
 }

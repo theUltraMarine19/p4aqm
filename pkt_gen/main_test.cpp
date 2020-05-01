@@ -9,10 +9,13 @@
 #include "PcapLiveDeviceList.h"
 #include "PlatformSpecificUtils.h"
 #include <time.h>
-// #include <unistd.h>
+#include <iostream>
 #include <chrono>
 #include <thread>
 #include "PcapFileDevice.h"
+
+using namespace std;
+double replay = 5;
 
 int main(int argc, char* argv[])
 {
@@ -21,8 +24,6 @@ int main(int argc, char* argv[])
 	// ~~~~~~~~~~~~~~~
     std::string interfaceIPAddr(argv[1]);
     
-    std::string iface2(interfaceIPAddr);
-    iface2[5] = '1';
     // Get device info
     // ~~~~~~~~~~~~~~~
     // find the interface by IP address
@@ -43,11 +44,11 @@ int main(int argc, char* argv[])
     }
 
     // open a pcap file for reading
-    pcpp::PcapFileReaderDevice reader("../cms/univ1_trace/long.pcap");
+    pcpp::PcapFileReaderDevice reader("long");
     if (!reader.open())
     {
         printf("Error opening the pcap file\n");
-        return (void*)1;
+        return -1;
     }
 
     pcpp::RawPacket rawPacket;
@@ -77,7 +78,9 @@ int main(int argc, char* argv[])
             duration_sec = chrono::duration_cast<chrono::duration<double, milli>>(end - start);
             
             int durn = (pkt_time*replay - duration_sec.count()*1e3)-80;
-            std::this_thread::sleep_for(std::chrono::microseconds(durn));
+            cout << durn << endl;
+            if (durn > 0)
+            	std::this_thread::sleep_for(std::chrono::microseconds(durn));
         }
         pcpp::Packet parsedPacket(&rawPacket);
         if (!dev->sendPacket(&parsedPacket))
@@ -86,5 +89,13 @@ int main(int argc, char* argv[])
             exit(1);
         }
 
+        ctr += 1;
+
     }
+
+    end = chrono::high_resolution_clock::now();
+    duration_sec = chrono::duration_cast<chrono::duration<double, milli>>(end - start);
+
+   	cout << "Total time : " << duration_sec.count() << endl;
+    reader.close();
 }

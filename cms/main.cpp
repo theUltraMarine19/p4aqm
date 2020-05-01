@@ -19,8 +19,8 @@ deque<int> q;
 sem_t full;
 pthread_mutex_t mutex;
 bool stop = false;
-int out_limit = 125;
-int replay = 100;
+int out_limit = 88;
+int replay = 1;
 
 int h = 4, w = 4, d = 4;
 int hashes[][4] = { { 0x04C11DB7, 0x0DB88320, 0x0B710641, 0x02608EDB }, { 0x041B8CD7, 0x0B31D82E, 0x0D663B05, 0x0A0DC66B }, { 0x02583499, 0x092C1A4C, 0x0D663B05, 0x0A0DC66B }, { 0x02583499, 0x04C11DB7, 0x0B710641, 0x041B8CD7 } };   
@@ -120,8 +120,8 @@ void* consume(void* arg) {
 
         // sem_wait(&full); // wait until queue has something
         pthread_mutex_lock(&mutex);
-        if (ctr % 4 == 0)
-            cout << q.size() << endl;
+        // if (ctr % 4 == 0)
+        cout << q.size() << endl;
         
         while (q.size() > 0 && tot < out_limit) { // 1 Gbps outgoing link speed
                 
@@ -143,7 +143,7 @@ void* consume(void* arg) {
         pthread_mutex_unlock(&mutex);
         // cout << "Consumed " << cnt << " pkts\n"; 
 
-        std::this_thread::sleep_for(std::chrono::microseconds(25000));
+        std::this_thread::sleep_for(std::chrono::microseconds(500));
 
         if (stop && q.size() == 0)
             break;  
