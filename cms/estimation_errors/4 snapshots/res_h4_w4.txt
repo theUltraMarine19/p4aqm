@@ -1,0 +1,892 @@
+Estimate : 31, Per-flow counter value : 1, #Distinct flows : 61
+Snapshot-estimate : 1, Ground truth : 2
+Estimate : 82, Per-flow counter value : 1, #Distinct flows : 61
+Snapshot-estimate : 1, Ground truth : 2
+Estimate : 31, Per-flow counter value : 1, #Distinct flows : 61
+Snapshot-estimate : 1, Ground truth : 3
+Estimate : 20, Per-flow counter value : 1, #Distinct flows : 61
+Snapshot-estimate : 1, Ground truth : 2
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 61
+Snapshot-estimate : 23, Ground truth : 29
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 61
+Snapshot-estimate : 23, Ground truth : 30
+Estimate : 82, Per-flow counter value : 17, #Distinct flows : 61
+Snapshot-estimate : 17, Ground truth : 20
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 61
+Snapshot-estimate : 23, Ground truth : 31
+Estimate : 51, Per-flow counter value : 17, #Distinct flows : 61
+Snapshot-estimate : 17, Ground truth : 20
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 62
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 59, Per-flow counter value : 0, #Distinct flows : 63
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 20, Per-flow counter value : 0, #Distinct flows : 64
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 31, Per-flow counter value : 17, #Distinct flows : 64
+Snapshot-estimate : 17, Ground truth : 20
+Estimate : 51, Per-flow counter value : 17, #Distinct flows : 63
+Snapshot-estimate : 17, Ground truth : 20
+Estimate : 31, Per-flow counter value : 0, #Distinct flows : 64
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 82, Per-flow counter value : 17, #Distinct flows : 64
+Snapshot-estimate : 17, Ground truth : 20
+Estimate : 20, Per-flow counter value : 0, #Distinct flows : 65
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 51, Per-flow counter value : 17, #Distinct flows : 65
+Snapshot-estimate : 17, Ground truth : 20
+Estimate : 20, Per-flow counter value : 0, #Distinct flows : 66
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 67
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 20, Per-flow counter value : 3, #Distinct flows : 67
+Snapshot-estimate : 3, Ground truth : 4
+Estimate : 82, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 82, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 82, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 30
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 31
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 32
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 33
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 34
+Estimate : 20, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 20, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 20, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 4
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 4
+Estimate : 20, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 5
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 5
+Estimate : 31, Per-flow counter value : 17, #Distinct flows : 67
+Snapshot-estimate : 17, Ground truth : 21
+Estimate : 20, Per-flow counter value : 3, #Distinct flows : 67
+Snapshot-estimate : 3, Ground truth : 5
+Estimate : 51, Per-flow counter value : 17, #Distinct flows : 67
+Snapshot-estimate : 17, Ground truth : 21
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 67
+Snapshot-estimate : 23, Ground truth : 32
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 67
+Snapshot-estimate : 23, Ground truth : 33
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 67
+Snapshot-estimate : 23, Ground truth : 34
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 67
+Snapshot-estimate : 23, Ground truth : 35
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 67
+Snapshot-estimate : 23, Ground truth : 36
+Estimate : 136, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 136, Per-flow counter value : 0, #Distinct flows : 68
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 69
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 69
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 136, Per-flow counter value : 0, #Distinct flows : 69
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 136, Per-flow counter value : 0, #Distinct flows : 69
+Snapshot-estimate : 0, Ground truth : 4
+Estimate : 136, Per-flow counter value : 0, #Distinct flows : 69
+Snapshot-estimate : 0, Ground truth : 5
+Estimate : 136, Per-flow counter value : 0, #Distinct flows : 69
+Snapshot-estimate : 0, Ground truth : 6
+Estimate : 82, Per-flow counter value : 17, #Distinct flows : 69
+Snapshot-estimate : 17, Ground truth : 21
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 69
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 69
+Snapshot-estimate : 0, Ground truth : 4
+Estimate : 51, Per-flow counter value : 17, #Distinct flows : 69
+Snapshot-estimate : 17, Ground truth : 21
+Estimate : 31, Per-flow counter value : 17, #Distinct flows : 69
+Snapshot-estimate : 17, Ground truth : 21
+Estimate : 51, Per-flow counter value : 17, #Distinct flows : 69
+Snapshot-estimate : 17, Ground truth : 21
+Estimate : 20, Per-flow counter value : 3, #Distinct flows : 69
+Snapshot-estimate : 3, Ground truth : 6
+Estimate : 51, Per-flow counter value : 0, #Distinct flows : 70
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 70
+Snapshot-estimate : 23, Ground truth : 37
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 70
+Snapshot-estimate : 23, Ground truth : 38
+Estimate : 136, Per-flow counter value : 1, #Distinct flows : 70
+Snapshot-estimate : 1, Ground truth : 2
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 70
+Snapshot-estimate : 23, Ground truth : 39
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 70
+Snapshot-estimate : 23, Ground truth : 40
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 70
+Snapshot-estimate : 23, Ground truth : 41
+Estimate : 82, Per-flow counter value : 17, #Distinct flows : 70
+Snapshot-estimate : 17, Ground truth : 22
+Estimate : 51, Per-flow counter value : 17, #Distinct flows : 70
+Snapshot-estimate : 17, Ground truth : 22
+Estimate : 82, Per-flow counter value : 1, #Distinct flows : 70
+Snapshot-estimate : 1, Ground truth : 2
+Estimate : 117, Per-flow counter value : 0, #Distinct flows : 71
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 20, Per-flow counter value : 3, #Distinct flows : 68
+Snapshot-estimate : 3, Ground truth : 7
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 42
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 43
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 44
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 45
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 46
+Estimate : 59, Per-flow counter value : 1, #Distinct flows : 68
+Snapshot-estimate : 1, Ground truth : 3
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 36
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 37
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 38
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 39
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 40
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 41
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 42
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 43
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 44
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 45
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 46
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 47
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 48
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 49
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 50
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 51
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 52
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 53
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 54
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 55
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 56
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 57
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 58
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 59
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 60
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 61
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 62
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 63
+Estimate : 82, Per-flow counter value : 30, #Distinct flows : 68
+Snapshot-estimate : 30, Ground truth : 64
+Estimate : 20, Per-flow counter value : 3, #Distinct flows : 68
+Snapshot-estimate : 3, Ground truth : 8
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 47
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 48
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 49
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 50
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 51
+Estimate : 20, Per-flow counter value : 3, #Distinct flows : 68
+Snapshot-estimate : 3, Ground truth : 9
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 52
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 53
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 54
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 55
+Estimate : 155, Per-flow counter value : 23, #Distinct flows : 68
+Snapshot-estimate : 23, Ground truth : 56
+Estimate : 82, Per-flow counter value : 0, #Distinct flows : 69
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 20, Per-flow counter value : 0, #Distinct flows : 70
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 31, Per-flow counter value : 0, #Distinct flows : 71
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 20, Per-flow counter value : 0, #Distinct flows : 72
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 186
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 187
+Estimate : 22, Per-flow counter value : 0, #Distinct flows : 113
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 48, Per-flow counter value : 2, #Distinct flows : 113
+Snapshot-estimate : 2, Ground truth : 4
+Estimate : 61, Per-flow counter value : 23, #Distinct flows : 113
+Snapshot-estimate : 23, Ground truth : 24
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 113
+Snapshot-estimate : 180, Ground truth : 188
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 113
+Snapshot-estimate : 180, Ground truth : 189
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 113
+Snapshot-estimate : 180, Ground truth : 190
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 113
+Snapshot-estimate : 180, Ground truth : 191
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 113
+Snapshot-estimate : 180, Ground truth : 192
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 113
+Snapshot-estimate : 180, Ground truth : 193
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 194
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 195
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 196
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 111
+Snapshot-estimate : 180, Ground truth : 197
+Estimate : 50, Per-flow counter value : 1, #Distinct flows : 111
+Snapshot-estimate : 1, Ground truth : 2
+Estimate : 61, Per-flow counter value : 23, #Distinct flows : 111
+Snapshot-estimate : 23, Ground truth : 25
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 111
+Snapshot-estimate : 180, Ground truth : 198
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 111
+Snapshot-estimate : 180, Ground truth : 199
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 111
+Snapshot-estimate : 180, Ground truth : 200
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 111
+Snapshot-estimate : 180, Ground truth : 201
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 111
+Snapshot-estimate : 180, Ground truth : 202
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 111
+Snapshot-estimate : 180, Ground truth : 203
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 111
+Snapshot-estimate : 180, Ground truth : 204
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 110
+Snapshot-estimate : 180, Ground truth : 205
+Estimate : 71, Per-flow counter value : 0, #Distinct flows : 111
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 71, Per-flow counter value : 0, #Distinct flows : 111
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 71, Per-flow counter value : 0, #Distinct flows : 111
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 71, Per-flow counter value : 0, #Distinct flows : 111
+Snapshot-estimate : 0, Ground truth : 4
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 111
+Snapshot-estimate : 180, Ground truth : 206
+Estimate : 22, Per-flow counter value : 0, #Distinct flows : 112
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 207
+Estimate : 22, Per-flow counter value : 5, #Distinct flows : 112
+Snapshot-estimate : 5, Ground truth : 6
+Estimate : 61, Per-flow counter value : 23, #Distinct flows : 112
+Snapshot-estimate : 23, Ground truth : 26
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 208
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 209
+Estimate : 71, Per-flow counter value : 3, #Distinct flows : 112
+Snapshot-estimate : 3, Ground truth : 15
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 210
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 211
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 212
+Estimate : 22, Per-flow counter value : 3, #Distinct flows : 112
+Snapshot-estimate : 3, Ground truth : 15
+Estimate : 61, Per-flow counter value : 23, #Distinct flows : 112
+Snapshot-estimate : 23, Ground truth : 27
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 213
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 214
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 215
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 216
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 217
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 112
+Snapshot-estimate : 180, Ground truth : 218
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 111
+Snapshot-estimate : 180, Ground truth : 219
+Estimate : 48, Per-flow counter value : 0, #Distinct flows : 102
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 22, Per-flow counter value : 3, #Distinct flows : 101
+Snapshot-estimate : 3, Ground truth : 5
+Estimate : 48, Per-flow counter value : 4, #Distinct flows : 98
+Snapshot-estimate : 4, Ground truth : 5
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 69
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 70
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 71
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 72
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 73
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 74
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 75
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 76
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 77
+Estimate : 48, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 98
+Snapshot-estimate : 68, Ground truth : 78
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 98
+Snapshot-estimate : 68, Ground truth : 79
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 98
+Snapshot-estimate : 68, Ground truth : 80
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 98
+Snapshot-estimate : 68, Ground truth : 81
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 98
+Snapshot-estimate : 68, Ground truth : 82
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 98
+Snapshot-estimate : 68, Ground truth : 83
+Estimate : 61, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 98
+Snapshot-estimate : 68, Ground truth : 84
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 98
+Snapshot-estimate : 68, Ground truth : 85
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 98
+Snapshot-estimate : 68, Ground truth : 86
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 98
+Snapshot-estimate : 68, Ground truth : 87
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 88
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 89
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 90
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 91
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 92
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 97
+Snapshot-estimate : 68, Ground truth : 93
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 96
+Snapshot-estimate : 68, Ground truth : 94
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 96
+Snapshot-estimate : 68, Ground truth : 95
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 96
+Snapshot-estimate : 68, Ground truth : 96
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 96
+Snapshot-estimate : 68, Ground truth : 97
+Estimate : 110, Per-flow counter value : 68, #Distinct flows : 96
+Snapshot-estimate : 68, Ground truth : 98
+Estimate : 59, Per-flow counter value : 0, #Distinct flows : 96
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 59, Per-flow counter value : 0, #Distinct flows : 97
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 97
+Snapshot-estimate : 180, Ground truth : 220
+Estimate : 48, Per-flow counter value : 0, #Distinct flows : 97
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 97
+Snapshot-estimate : 180, Ground truth : 221
+Estimate : 48, Per-flow counter value : 0, #Distinct flows : 97
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 59, Per-flow counter value : 0, #Distinct flows : 97
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 97
+Snapshot-estimate : 180, Ground truth : 222
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 4
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 5
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 6
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 7
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 8
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 9
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 10
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 98
+Snapshot-estimate : 0, Ground truth : 11
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 223
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 224
+Estimate : 93, Per-flow counter value : 4, #Distinct flows : 98
+Snapshot-estimate : 4, Ground truth : 5
+Estimate : 93, Per-flow counter value : 4, #Distinct flows : 98
+Snapshot-estimate : 4, Ground truth : 6
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 225
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 226
+Estimate : 137, Per-flow counter value : 35, #Distinct flows : 98
+Snapshot-estimate : 35, Ground truth : 36
+Estimate : 137, Per-flow counter value : 35, #Distinct flows : 98
+Snapshot-estimate : 35, Ground truth : 37
+Estimate : 137, Per-flow counter value : 35, #Distinct flows : 98
+Snapshot-estimate : 35, Ground truth : 38
+Estimate : 137, Per-flow counter value : 35, #Distinct flows : 98
+Snapshot-estimate : 35, Ground truth : 39
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 227
+Estimate : 137, Per-flow counter value : 35, #Distinct flows : 98
+Snapshot-estimate : 35, Ground truth : 40
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 228
+Estimate : 137, Per-flow counter value : 35, #Distinct flows : 98
+Snapshot-estimate : 35, Ground truth : 41
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 229
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 230
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 231
+Estimate : 137, Per-flow counter value : 35, #Distinct flows : 98
+Snapshot-estimate : 35, Ground truth : 42
+Estimate : 137, Per-flow counter value : 35, #Distinct flows : 98
+Snapshot-estimate : 35, Ground truth : 43
+Estimate : 137, Per-flow counter value : 35, #Distinct flows : 98
+Snapshot-estimate : 35, Ground truth : 44
+Estimate : 137, Per-flow counter value : 35, #Distinct flows : 98
+Snapshot-estimate : 35, Ground truth : 45
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 232
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 233
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 234
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 235
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 236
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 237
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 238
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 239
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 239
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 239
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 238
+Estimate : 59, Per-flow counter value : 0, #Distinct flows : 99
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 59, Per-flow counter value : 0, #Distinct flows : 99
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 239
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 239
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 240
+Estimate : 50, Per-flow counter value : 0, #Distinct flows : 99
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 241
+Estimate : 50, Per-flow counter value : 4, #Distinct flows : 99
+Snapshot-estimate : 4, Ground truth : 8
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 242
+Estimate : 71, Per-flow counter value : 0, #Distinct flows : 99
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 71, Per-flow counter value : 0, #Distinct flows : 99
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 48, Per-flow counter value : 0, #Distinct flows : 99
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 243
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 244
+Estimate : 61, Per-flow counter value : 23, #Distinct flows : 99
+Snapshot-estimate : 23, Ground truth : 28
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 245
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 246
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 247
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 248
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 249
+Estimate : 71, Per-flow counter value : 0, #Distinct flows : 99
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 250
+Estimate : 48, Per-flow counter value : 0, #Distinct flows : 99
+Snapshot-estimate : 0, Ground truth : 4
+Estimate : 61, Per-flow counter value : 23, #Distinct flows : 99
+Snapshot-estimate : 23, Ground truth : 29
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 251
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 252
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 253
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 254
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 255
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 99
+Snapshot-estimate : 180, Ground truth : 256
+Estimate : 61, Per-flow counter value : 0, #Distinct flows : 100
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 61, Per-flow counter value : 0, #Distinct flows : 100
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 61, Per-flow counter value : 0, #Distinct flows : 100
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 50, Per-flow counter value : 10, #Distinct flows : 99
+Snapshot-estimate : 10, Ground truth : 11
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 257
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 258
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 259
+Estimate : 50, Per-flow counter value : 10, #Distinct flows : 98
+Snapshot-estimate : 10, Ground truth : 12
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 260
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 261
+Estimate : 110, Per-flow counter value : 7, #Distinct flows : 98
+Snapshot-estimate : 7, Ground truth : 8
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 262
+Estimate : 50, Per-flow counter value : 5, #Distinct flows : 98
+Snapshot-estimate : 5, Ground truth : 6
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 98
+Snapshot-estimate : 180, Ground truth : 263
+Estimate : 237, Per-flow counter value : 180, #Distinct flows : 97
+Snapshot-estimate : 180, Ground truth : 264
+Estimate : 50, Per-flow counter value : 1, #Distinct flows : 97
+Snapshot-estimate : 1, Ground truth : 2
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 108
+Snapshot-estimate : 157, Ground truth : 172
+Estimate : 153, Per-flow counter value : 4, #Distinct flows : 108
+Snapshot-estimate : 4, Ground truth : 5
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 71
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 72
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 73
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 74
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 75
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 76
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 77
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 78
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 79
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 80
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 81
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 82
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 83
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 84
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 85
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 86
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 87
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 88
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 89
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 90
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 91
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 92
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 93
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 94
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 95
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 96
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 97
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 98
+Estimate : 117, Per-flow counter value : 70, #Distinct flows : 108
+Snapshot-estimate : 70, Ground truth : 99
+Estimate : 59, Per-flow counter value : 0, #Distinct flows : 109
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 59, Per-flow counter value : 0, #Distinct flows : 110
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 58, Per-flow counter value : 1, #Distinct flows : 110
+Snapshot-estimate : 1, Ground truth : 2
+Estimate : 59, Per-flow counter value : 7, #Distinct flows : 110
+Snapshot-estimate : 7, Ground truth : 8
+Estimate : 69, Per-flow counter value : 0, #Distinct flows : 111
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 66, Per-flow counter value : 6, #Distinct flows : 111
+Snapshot-estimate : 6, Ground truth : 7
+Estimate : 49, Per-flow counter value : 10, #Distinct flows : 111
+Snapshot-estimate : 10, Ground truth : 11
+Estimate : 59, Per-flow counter value : 0, #Distinct flows : 112
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 66, Per-flow counter value : 6, #Distinct flows : 112
+Snapshot-estimate : 6, Ground truth : 8
+Estimate : 66, Per-flow counter value : 6, #Distinct flows : 112
+Snapshot-estimate : 6, Ground truth : 9
+Estimate : 66, Per-flow counter value : 6, #Distinct flows : 112
+Snapshot-estimate : 6, Ground truth : 10
+Estimate : 49, Per-flow counter value : 10, #Distinct flows : 112
+Snapshot-estimate : 10, Ground truth : 12
+Estimate : 62, Per-flow counter value : 10, #Distinct flows : 112
+Snapshot-estimate : 10, Ground truth : 11
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 112
+Snapshot-estimate : 157, Ground truth : 169
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 112
+Snapshot-estimate : 157, Ground truth : 170
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 112
+Snapshot-estimate : 157, Ground truth : 171
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 112
+Snapshot-estimate : 157, Ground truth : 172
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 112
+Snapshot-estimate : 157, Ground truth : 173
+Estimate : 80, Per-flow counter value : 39, #Distinct flows : 112
+Snapshot-estimate : 39, Ground truth : 42
+Estimate : 80, Per-flow counter value : 39, #Distinct flows : 112
+Snapshot-estimate : 39, Ground truth : 43
+Estimate : 80, Per-flow counter value : 39, #Distinct flows : 111
+Snapshot-estimate : 39, Ground truth : 44
+Estimate : 80, Per-flow counter value : 39, #Distinct flows : 111
+Snapshot-estimate : 39, Ground truth : 44
+Estimate : 80, Per-flow counter value : 39, #Distinct flows : 111
+Snapshot-estimate : 39, Ground truth : 45
+Estimate : 80, Per-flow counter value : 39, #Distinct flows : 111
+Snapshot-estimate : 39, Ground truth : 45
+Estimate : 80, Per-flow counter value : 39, #Distinct flows : 111
+Snapshot-estimate : 39, Ground truth : 46
+Estimate : 80, Per-flow counter value : 39, #Distinct flows : 111
+Snapshot-estimate : 39, Ground truth : 47
+Estimate : 49, Per-flow counter value : 1, #Distinct flows : 110
+Snapshot-estimate : 1, Ground truth : 2
+Estimate : 49, Per-flow counter value : 1, #Distinct flows : 110
+Snapshot-estimate : 1, Ground truth : 3
+Estimate : 58, Per-flow counter value : 1, #Distinct flows : 110
+Snapshot-estimate : 1, Ground truth : 2
+Estimate : 58, Per-flow counter value : 6, #Distinct flows : 110
+Snapshot-estimate : 6, Ground truth : 7
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 110
+Snapshot-estimate : 157, Ground truth : 168
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 110
+Snapshot-estimate : 157, Ground truth : 167
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 110
+Snapshot-estimate : 157, Ground truth : 167
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 110
+Snapshot-estimate : 157, Ground truth : 168
+Estimate : 207, Per-flow counter value : 157, #Distinct flows : 110
+Snapshot-estimate : 157, Ground truth : 169
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 64
+Snapshot-estimate : 221, Ground truth : 226
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 64
+Snapshot-estimate : 221, Ground truth : 227
+Estimate : 41, Per-flow counter value : 5, #Distinct flows : 64
+Snapshot-estimate : 5, Ground truth : 6
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 64
+Snapshot-estimate : 221, Ground truth : 228
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 64
+Snapshot-estimate : 221, Ground truth : 229
+Estimate : 30, Per-flow counter value : 0, #Distinct flows : 65
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 230
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 231
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 232
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 233
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 234
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 235
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 236
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 237
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 238
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 239
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 240
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 241
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 242
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 243
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 244
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 245
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 246
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 247
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 248
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 249
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 250
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 251
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 252
+Estimate : 48, Per-flow counter value : 2, #Distinct flows : 65
+Snapshot-estimate : 2, Ground truth : 3
+Estimate : 48, Per-flow counter value : 2, #Distinct flows : 65
+Snapshot-estimate : 2, Ground truth : 4
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 253
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 254
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 255
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 256
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 257
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 258
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 259
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 260
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 261
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 262
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 263
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 264
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 265
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 266
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 267
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 268
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 269
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 270
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 271
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 272
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 273
+Estimate : 38, Per-flow counter value : 0, #Distinct flows : 66
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 66
+Snapshot-estimate : 221, Ground truth : 274
+Estimate : 30, Per-flow counter value : 0, #Distinct flows : 66
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 66
+Snapshot-estimate : 221, Ground truth : 275
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 66
+Snapshot-estimate : 221, Ground truth : 276
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 66
+Snapshot-estimate : 221, Ground truth : 277
+Estimate : 30, Per-flow counter value : 8, #Distinct flows : 66
+Snapshot-estimate : 8, Ground truth : 9
+Estimate : 30, Per-flow counter value : 0, #Distinct flows : 66
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 278
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 65
+Snapshot-estimate : 221, Ground truth : 279
+Estimate : 38, Per-flow counter value : 2, #Distinct flows : 64
+Snapshot-estimate : 2, Ground truth : 3
+Estimate : 40, Per-flow counter value : 2, #Distinct flows : 64
+Snapshot-estimate : 2, Ground truth : 3
+Estimate : 38, Per-flow counter value : 0, #Distinct flows : 64
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 38, Per-flow counter value : 0, #Distinct flows : 64
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 30, Per-flow counter value : 0, #Distinct flows : 62
+Snapshot-estimate : 0, Ground truth : 4
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 62
+Snapshot-estimate : 221, Ground truth : 280
+Estimate : 30, Per-flow counter value : 0, #Distinct flows : 63
+Snapshot-estimate : 0, Ground truth : 1
+Estimate : 30, Per-flow counter value : 0, #Distinct flows : 63
+Snapshot-estimate : 0, Ground truth : 2
+Estimate : 30, Per-flow counter value : 0, #Distinct flows : 63
+Snapshot-estimate : 0, Ground truth : 3
+Estimate : 30, Per-flow counter value : 0, #Distinct flows : 63
+Snapshot-estimate : 0, Ground truth : 4
+Estimate : 259, Per-flow counter value : 221, #Distinct flows : 63
+Snapshot-estimate : 221, Ground truth : 279
+Estimate : 30, Per-flow counter value : 0, #Distinct flows : 63
+Snapshot-estimate : 0, Ground truth : 5
+Estimate : 30, Per-flow counter value : 0, #Distinct flows : 63
+Snapshot-estimate : 0, Ground truth : 6
+Avg hash overestimate error : 0.57487
+Avg Snapshot rounding error : 0.944968

@@ -23,10 +23,11 @@ sem_t full;
 pthread_mutex_t mutex;
 bool stop = false;
 int out_limit = 72;
-int replay = 0.01;
+double replay = 0.54;
+int sleep_time;
 
-int h = 64, w = 32, d = 4, k = 1;
-int num_pkts = 2048/h;
+int h, w, d = 4, k = 16;
+int num_pkts;
 int hashes[][4] = { { 0x04C11DB7, 0x0DB88320, 0x0B710641, 0x02608EDB }, { 0x041B8CD7, 0x0B31D82E, 0x0D663B05, 0x0A0DC66B }, { 0x02583499, 0x092C1A4C, 0x0D663B05, 0x0A0DC66B }, { 0x02583499, 0x04C11DB7, 0x0B710641, 0x041B8CD7 } };   
 CountMinSketch c[64]; // h snapshots
 vector<unordered_map<string, int>> vm(64);
@@ -67,8 +68,9 @@ void* produce(void* arg) {
             end = chrono::high_resolution_clock::now();
             duration_sec = chrono::duration_cast<chrono::duration<double, milli>>(end - start);
             
-            int durn = (pkt_time*replay - duration_sec.count()*1e3)-80;
-            std::this_thread::sleep_for(std::chrono::microseconds(50));
+            // cout << (double)pkt_time*(double)replay << endl;
+            int durn = ((double)pkt_time*(double)replay - duration_sec.count()*1e3)-80;
+            std::this_thread::sleep_for(std::chrono::microseconds(durn));
         }
         
         pcpp::Packet parsedPacket(&rawPacket);
@@ -106,20 +108,24 @@ void* produce(void* arg) {
         // Write to snapshot
         int write_stage = (ctr/num_pkts)%h;
         // c[write_stage].view_snapshot();
-        c[write_stage].update(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
+        c[write_stage].update(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort, rawPacket.getRawDataLen());
         // c[write_stage].view_snapshot();
         // Ground truth DS for accounting
         vm[write_stage][key]+= 1;
-        distinct[key] += 1;
+        distinct[key] += rawPacket.getRawDataLen();
         vector<uint32_t> arr({srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort});
         q.push_back({rawPacket.getRawDataLen(), arr});
         wsq.push(write_stage);
         
         // Read from snapshots
         int read_limit = ((ctr-sz)/num_pkts)%h;
-        int read = 0, gread = 0;
+        int read = 0, gread = 0, read1 = 0;
+
+        if ((read_limit+1)%h == write_stage) {
+            read1 = c[read_limit].estimate(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
+        }
         
-        if (read_limit != write_stage) {
+        else if (read_limit != write_stage && (read_limit+1)%h != write_stage) {
             int start = (read_limit+1)%h;
             int end = (write_stage - 1 + h)%h;
             
@@ -130,25 +136,39 @@ void* produce(void* arg) {
                 // c[i].view_snapshot();
                 if (read_curr != vm[i][key]) {
                 //     // cout << "Hash collision detected\n";
-                    cout << "Estimate : " << read_curr << ", Actual flow estimate : " << vm[i][key] << ", Distinct #flows : " << distinct.size() << endl;
+                    // cout << "Estimate : " << read_curr << ", Per-flow counter value : " << vm[i][key] << ", #Distinct flows : " << distinct.size() << endl;
                 }
 
                 if (i == end)
                     break;
             }
-            // if (gread != distinct[key])
-            //     cout << "Pkts correctly identified : " << gread << ", Ground truth : " << distinct[key] << endl;
+
+            read1 = read + c[read_limit].estimate(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
+            if (gread != distinct[key]) {
+                // cout << start << " " << end << endl;
+                // for (int i = 0; i < h; i++) {
+                //     cout << vm[i][key] << " ";
+                // }
+                // cout << endl;
+                // cout << "Snapshot-estimate : " << gread << ", Ground truth : " << distinct[key] << endl;
+            }
+            // if (read > distinct[key])
+            //     cout << "Over-estimate\n";
         }
 
         tot_read += read;
         tot_gread += gread;
-        if (read != 0) {
-            prec += (double)gread/(double)read;
-            prec_ctr += 1;
-        }
-        if (distinct[key] != 0) {
-            recall += (double)gread/(double)distinct[key];
-            rec_ctr += 1;
+        // if (read != 0 && (sz > 50) && ((double)read/(double)sz > 0.1)) {
+        //     prec += 1 - (double)gread/(double)read;
+        //     prec_ctr += 1;
+        // }
+        // if (distinct[key] != 0 && (sz > 50) && ((double)read/(double)sz > 0.1)) {
+        //     recall += 1 - (double)gread/(double)distinct[key];
+        //     rec_ctr += 1;
+        // }
+
+        if ((sz > 50) && ((double)read/(double)sz > 0.1)) {
+            cout << (double)read/(double)(8*1024) << " " << (double)read1/(double)(8*1024) << " " << (double)distinct[key]/(double)(8*1024) << endl;   
         }
 
         
@@ -176,18 +196,25 @@ void* produce(void* arg) {
     stop = true;
     // close the file
     reader.close();
-    if (tot_read == 0)
-        cout << "No reads made\n";
-    else
-        // cout << "Precision : " << (double)tot_gread/(double)tot_read << endl;
-        cout << "Avg hash overestimate error : " << prec/prec_ctr << endl;
+    // if (tot_read == 0)
+    //     cout << "No reads made\n";
+    // else
+    //     // cout << "Precision : " << (double)tot_gread/(double)tot_read << endl;
+    //     cout << "Avg hash overestimate error : " << prec/prec_ctr << endl;
 
-    // cout << "Recall : " << recall/rec_ctr << endl;
+    // cout << "Avg Snapshot rounding error : " << recall/rec_ctr << endl;
 
-    cout << maxm << " " << distinct.size() << " " << ctr << endl;
+    // cerr << maxm << " " << distinct.size() << " " << ctr << endl;
+    if (maxm > num_pkts * (h-2))
+        cerr << "=== Error === " << endl;
     // for (auto it = m.begin(); it!= m.end(); ++it) {
     //     cout << it->first << endl;
     // }
+    // if (tot_read == 0)
+    //     cerr << "--- No reads ---\n";
+    // else
+    //     cerr << prec/prec_ctr << endl;
+    // cerr << recall/rec_ctr << endl;
         
     
 }
@@ -225,7 +252,7 @@ void* consume(void* arg) {
                 //     cout << "============ Major error ===============\n";
                 
                 vm[wsq.front()][key] -= 1;
-                distinct[key] -= 1;
+                distinct[key] -= x;
                 if (distinct[key] == 0)
                     distinct.erase(key);
                 wsq.pop();
@@ -240,7 +267,7 @@ void* consume(void* arg) {
         pthread_mutex_unlock(&mutex);
         // cout << "Consumed " << cnt << " pkts\n"; 
 
-        std::this_thread::sleep_for(std::chrono::microseconds(90));
+        std::this_thread::sleep_for(std::chrono::microseconds(sleep_time));
 
         if (stop && q.size() == 0)
             break;  
@@ -255,6 +282,15 @@ void* consume(void* arg) {
 
 int main(int argc, char* argv[])
 {
+    h = atoi(argv[1]);
+    w = atoi(argv[2]);
+    num_pkts = 2048/h;
+    sleep_time = 84;
+    if (h == 32)
+        sleep_time = 78;
+    if (h == 64)
+        sleep_time = 56;
+    // cerr << sleep_time << " ";
     for (int i = 0; i < h; i++) {
         c[i].set(w, d, hashes[i%4]);
     }
