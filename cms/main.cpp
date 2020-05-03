@@ -8,6 +8,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <deque>
+#include <queue>
 #include <chrono>
 #include <ratio>
 #include <thread>
@@ -17,17 +18,21 @@
 using namespace std;
 
 deque<pair<int, vector<uint32_t>>> q;
+queue<int> wsq;
 sem_t full;
 pthread_mutex_t mutex;
 bool stop = false;
-int out_limit = 88*3;
-int replay = 1;
+int out_limit = 72;
+int replay = 0.01;
 
-int h = 4, w = 4, d = 4;
-int num_pkts = 128;
+int h = 64, w = 32, d = 4, k = 1;
+int num_pkts = 2048/h;
 int hashes[][4] = { { 0x04C11DB7, 0x0DB88320, 0x0B710641, 0x02608EDB }, { 0x041B8CD7, 0x0B31D82E, 0x0D663B05, 0x0A0DC66B }, { 0x02583499, 0x092C1A4C, 0x0D663B05, 0x0A0DC66B }, { 0x02583499, 0x04C11DB7, 0x0B710641, 0x041B8CD7 } };   
-CountMinSketch c[4]; // h snapshots
-unordered_map<string, int> m;
+CountMinSketch c[64]; // h snapshots
+vector<unordered_map<string, int>> vm(64);
+unordered_map<string, int> distinct;
+long tot_read = 0, tot_gread = 0, prec_ctr = 0, rec_ctr = 0;
+double prec = 0, recall = 0.0;
 
 
 void* produce(void* arg) {
@@ -45,7 +50,7 @@ void* produce(void* arg) {
     }
 
     pcpp::RawPacket rawPacket;
-    int ctr = 0;
+    int ctr = 0, maxm = 0;
     long start_time, pkt_time = 0;
 
     while (reader.getNextPacket(rawPacket))
@@ -63,7 +68,7 @@ void* produce(void* arg) {
             duration_sec = chrono::duration_cast<chrono::duration<double, milli>>(end - start);
             
             int durn = (pkt_time*replay - duration_sec.count()*1e3)-80;
-            std::this_thread::sleep_for(std::chrono::microseconds(durn));
+            std::this_thread::sleep_for(std::chrono::microseconds(50));
         }
         
         pcpp::Packet parsedPacket(&rawPacket);
@@ -92,34 +97,71 @@ void* produce(void* arg) {
         // Put all other ARP / ICMP packets in the same flow class
 
         pthread_mutex_lock(&mutex);
-        cout << q.size() << endl;
+        // cout << "Queue size : " << q.size() << endl;
+        int sz = q.size();
+        maxm = max(maxm, sz);
         
-        // Write to snapshot
-        int write_stage = (ctr/num_pkts)%h;
-        c[write_stage].update(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
-        
-        // Read from snapshots
-        int read_limit = ((ctr-q.size())/num_pkts)%h;
-        int read = 0;
-        for (int i = read_limit+1; i < write_stage; i = (i+1)%h) {
-            read += c[i].estimate(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
-            // cout << read << endl;
-        }
-
         string key = to_string(srcIP.toInt())+to_string(destIP.toInt())+to_string(protocol)+to_string(srcPort)+to_string(dstPort);
 
+        // Write to snapshot
+        int write_stage = (ctr/num_pkts)%h;
+        // c[write_stage].view_snapshot();
+        c[write_stage].update(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
+        // c[write_stage].view_snapshot();
+        // Ground truth DS for accounting
+        vm[write_stage][key]+= 1;
+        distinct[key] += 1;
+        vector<uint32_t> arr({srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort});
+        q.push_back({rawPacket.getRawDataLen(), arr});
+        wsq.push(write_stage);
+        
+        // Read from snapshots
+        int read_limit = ((ctr-sz)/num_pkts)%h;
+        int read = 0, gread = 0;
+        
+        if (read_limit != write_stage) {
+            int start = (read_limit+1)%h;
+            int end = (write_stage - 1 + h)%h;
+            
+            for (int i = start; ; i = (i+1)%h) {
+                int read_curr = c[i].estimate(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
+                read += read_curr;
+                gread += vm[i][key];
+                // c[i].view_snapshot();
+                if (read_curr != vm[i][key]) {
+                //     // cout << "Hash collision detected\n";
+                    cout << "Estimate : " << read_curr << ", Actual flow estimate : " << vm[i][key] << ", Distinct #flows : " << distinct.size() << endl;
+                }
+
+                if (i == end)
+                    break;
+            }
+            // if (gread != distinct[key])
+            //     cout << "Pkts correctly identified : " << gread << ", Ground truth : " << distinct[key] << endl;
+        }
+
+        tot_read += read;
+        tot_gread += gread;
+        if (read != 0) {
+            prec += (double)gread/(double)read;
+            prec_ctr += 1;
+        }
+        if (distinct[key] != 0) {
+            recall += (double)gread/(double)distinct[key];
+            rec_ctr += 1;
+        }
+
+        
+        // cout << write_stage << " " << read_limit << " " << q.size() << " " << read << endl;        
         // if (ctr % 100 == 0) {
-            cout << "Estimate : " << read << ", Ground truth : " << m[key] << endl;
+            // cout << "Estimate : " << read << ", Ground truth : " << m[key] << endl;
         // }
 
         // Clear snapshots
-        for (int i = 0; i < d; i++)
-            c[(write_stage+1)%h].C[i][ctr%w] = 0;
-
-        // Ground truth DS for accounting
-        m[key]+= 1;
-        vector<uint32_t> arr({srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort});
-        q.push_back({rawPacket.getRawDataLen(), arr});
+        for (int i = 0; i < d; i++) {
+            for (int j = 0; j < k; j++)
+                c[(write_stage+1)%h].C[i][(k*ctr+j)%w] = 0;
+        }
 
         pthread_mutex_unlock(&mutex);
 
@@ -134,6 +176,15 @@ void* produce(void* arg) {
     stop = true;
     // close the file
     reader.close();
+    if (tot_read == 0)
+        cout << "No reads made\n";
+    else
+        // cout << "Precision : " << (double)tot_gread/(double)tot_read << endl;
+        cout << "Avg hash overestimate error : " << prec/prec_ctr << endl;
+
+    // cout << "Recall : " << recall/rec_ctr << endl;
+
+    cout << maxm << " " << distinct.size() << " " << ctr << endl;
     // for (auto it = m.begin(); it!= m.end(); ++it) {
     //     cout << it->first << endl;
     // }
@@ -151,8 +202,6 @@ void* consume(void* arg) {
 
         // sem_wait(&full); // wait until queue has something
         pthread_mutex_lock(&mutex);
-        int sz = q.size();
-        maxm = max(maxm, sz);
         // cout << q.size() << endl;
 
         while (q.size() > 0 && tot < out_limit) { // 1 Gbps outgoing link speed
@@ -166,14 +215,20 @@ void* consume(void* arg) {
                 tot += x;
                 cnt += 1;
                 string key = to_string(ele.second[0])+to_string(ele.second[1])+to_string(ele.second[2])+to_string(ele.second[3])+to_string(ele.second[4]);
-                if (m.find(key) == m.end()) {
-                    cout << "-------------- Key NOT FOUND --------------\n";
-                    cout << ele.second[0] << " " << ele.second[1] << " " << ele.second[2] << " " << ele.second[3] << " " << ele.second[4] << endl;
-                }
+                
+                // if (vm[wsq.front()].find(key) == vm[wsq.front()].end()) {
+                //     cout << "-------------- Key NOT FOUND --------------\n";
+                //     cout << ele.second[0] << " " << ele.second[1] << " " << ele.second[2] << " " << ele.second[3] << " " << ele.second[4] << endl;
+                // }
 
-                if (m[key] == 0)
-                    cout << "============ Major error ===============\n";
-                m[key] -= 1;
+                // if (vm[wsq.front()][key] == 0)
+                //     cout << "============ Major error ===============\n";
+                
+                vm[wsq.front()][key] -= 1;
+                distinct[key] -= 1;
+                if (distinct[key] == 0)
+                    distinct.erase(key);
+                wsq.pop();
             }
             else {
                 q.push_front({x - (out_limit - tot), ele.second});
@@ -185,7 +240,7 @@ void* consume(void* arg) {
         pthread_mutex_unlock(&mutex);
         // cout << "Consumed " << cnt << " pkts\n"; 
 
-        std::this_thread::sleep_for(std::chrono::microseconds(250));
+        std::this_thread::sleep_for(std::chrono::microseconds(90));
 
         if (stop && q.size() == 0)
             break;  
@@ -194,18 +249,19 @@ void* consume(void* arg) {
         
     }
 
-    cout << maxm << endl;
+    // cout << distinct.size() << endl;
 }
 
 
 int main(int argc, char* argv[])
 {
     for (int i = 0; i < h; i++) {
-        c[i].set(w, d, hashes[i]);
+        c[i].set(w, d, hashes[i%4]);
     }
+    // cout << c[6 ].hashes[d-1] << endl;
     
     pthread_t producer,consumer;
-    sem_init(&full, 0, 0);
+    // sem_init(&full, 0, 0);
     pthread_mutex_init(&mutex, NULL);
     pthread_create(&producer, NULL, produce, NULL);
     pthread_create(&consumer, NULL, consume, NULL);

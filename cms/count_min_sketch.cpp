@@ -90,7 +90,7 @@ void CountMinSketch::update(uint32_t srcIP, uint32_t dstIP, uint8_t protocol, ui
         
         int idx = result.checksum() % w;
         // cout << idx << "\n";
-        C[j][idx] = C[j][idx]++;
+        C[j][idx]++;
     }
 }
 
