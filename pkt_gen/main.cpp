@@ -17,6 +17,7 @@
 
 float rate_limit = 1.0;
 int fbp_cnt = 0;
+uint16_t dst_port;
 
 static void onPacketArrives(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, void* cookie)
 {
@@ -25,8 +26,8 @@ static void onPacketArrives(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, 
     pcpp::Packet parsedPacket(packet);
 
     pcpp::UdpLayer* udp = parsedPacket.getLayerOfType<pcpp::UdpLayer>();
-    if (udp != NULL && ntohs(udp->getUdpHeader()->portSrc) == (uint16_t)12346) {
-        rate_limit = 2.0;
+    if (udp != NULL && ntohs(udp->getUdpHeader()->portSrc) == (uint16_t)12346 && ntohs(udp->getUdpHeader()->portDst) == dst_port) {
+        rate_limit = 2.0+0.001*fbp_cnt;
         fbp_cnt++;
         // printf("%d\n", ntohs(udp->getUdpHeader()->portSrc));  
     }
@@ -38,7 +39,7 @@ int main(int argc, char* argv[])
     // Packet Creation
     // ~~~~~~~~~~~~~~~
     std::string interfaceIPAddr(argv[1]);
-    std::string destAddr(argv[2]);
+    std::string destAddr("10.0.0.2"); // argv[2] removed
     
     std::string iface2(interfaceIPAddr);
     iface2[5] = '1';
@@ -52,12 +53,12 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    // pcpp::PcapLiveDevice* dev1 = pcpp::PcapLiveDeviceList::getInstance().getPcapLiveDeviceByIp(iface2.c_str());
-    // if (dev1 == NULL)
-    // {
-    //     printf("Cannot find interface with IPv4 address of '%s'\n", iface2.c_str());
-    //     exit(1);
-    // }
+    pcpp::PcapLiveDevice* dev1 = pcpp::PcapLiveDeviceList::getInstance().getPcapLiveDeviceByIp(iface2.c_str());
+    if (dev1 == NULL)
+    {
+        printf("Cannot find interface with IPv4 address of '%s'\n", iface2.c_str());
+        exit(1);
+    }
     
     // before capturing packets let's print some info about this interface
     // printf("Interface info:\n");
@@ -86,16 +87,16 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    // if (!dev1->open())
-    // {
-    //     printf("Cannot open device\n");
-    //     exit(1);
-    // }
+    if (!dev1->open())
+    {
+        printf("Cannot open device\n");
+        exit(1);
+    }
 
     printf("\nStarting pkt creation...\n");
 
     // create a new Ethernet layer
-    int NUMBER_OF_PACKETS = atoi(argv[4]);
+    int NUMBER_OF_PACKETS = atoi(argv[3]);
     int i = 0;
     clock_t t;
     
@@ -113,14 +114,15 @@ int main(int argc, char* argv[])
     newIPLayer.getIPv4Header()->totalLength = htons(28+LEN);
     
     // create a new UDP layer with dummy ports
-    pcpp::UdpLayer newUdpLayer(atoi(argv[3]), 12346);
+    pcpp::UdpLayer newUdpLayer(atoi(argv[2]), 12346);
     newUdpLayer.getUdpHeader()->length = htons(8+LEN);
+    dst_port = (uint16_t)atoi(argv[2]);
 
     uint8_t* payload = (uint8_t*)malloc(LEN);
     uint8_t val[LEN];
     for (int i = 0; i < LEN; i++)
         val[i] = 0;
-    val[3] = atoi(argv[6]);
+    val[3] = 0;
     memcpy(payload, val, LEN);
     pcpp::PayloadLayer newPayload(payload, LEN, 0);
 
@@ -133,7 +135,7 @@ int main(int argc, char* argv[])
     newPacket.addLayer(&newUdpLayer);
     newPacket.addLayer(&newPayload);
 
-    // dev1->startCapture(onPacketArrives, NULL);
+    dev1->startCapture(onPacketArrives, NULL);
 
     // t = clock();
     struct timeval end, start;
@@ -141,17 +143,18 @@ int main(int argc, char* argv[])
 
     for (i = 0; i < NUMBER_OF_PACKETS; i++)
     {   
-        rate_limit -= (rate_limit - 1.0)*0.02;
+        rate_limit -= (rate_limit - 1.0)*0.005;
 
         newIPLayer.getIPv4Header()->headerChecksum = htons(i);
         
         // compute all calculated fields
         // newPacket.computeCalculateFields();
 
-        printf("%f\n" , rate_limit);
-        std::this_thread::sleep_for(std::chrono::microseconds(atoi(argv[5])) * rate_limit);
+        if (i % 5 == 0)
+            printf("%d : %f\n" , i, rate_limit);
+        std::this_thread::sleep_for(std::chrono::microseconds(atoi(argv[4])) * rate_limit);
 
-        // PCAP_SLEEP(atof(argv[5]));
+        // PCAP_SLEEP(atof(argv[4]));
         
         if (!dev->sendPacket(&newPacket))
         {
@@ -162,7 +165,7 @@ int main(int argc, char* argv[])
     }
     gettimeofday(&end, NULL);
     // PCAP_SLEEP(5);  
-    // dev1->stopCapture();
+    dev1->stopCapture();
     printf("%d packets sent\n", NUMBER_OF_PACKETS);
     long long int time_taken = (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec); // in seconds
     printf("%d\n", fbp_cnt);

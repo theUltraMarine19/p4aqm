@@ -23,7 +23,7 @@ sem_t full;
 pthread_mutex_t mutex;
 bool stop = false;
 int out_limit = 72;
-double replay = 0.54;
+double replay = 0.5;
 int sleep_time;
 
 int h, w, d = 4, k = 16;
@@ -121,13 +121,13 @@ void* produce(void* arg) {
         int read_limit = ((ctr-sz)/num_pkts)%h;
         int read = 0;
 
-        if ((read_limit+1)%h == write_stage) {
-            read = c[read_limit].estimate(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
-        }
+        // if ((read_limit+1)%h == write_stage) {
+        //     read = c[read_limit].estimate(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
+        // }
         
-        else if (read_limit != write_stage) {
+        if (read_limit != write_stage && (read_limit+1)%h != write_stage) {
             // int start = (read_limit+1)%h;
-            int start = read_limit;
+            int start = (read_limit+1)%h;
             int end = (write_stage - 1 + h)%h;
             
             for (int i = start; ; i = (i+1)%h) {
@@ -162,7 +162,7 @@ void* produce(void* arg) {
             g_contri++;
         }
 
-        // if (g_contri > 0 && ctr % 50 == 0) {
+        // if (g_contri > 0 && ctr) {
         //     double precision = rep_contri ? (double)actual_contri/(double)rep_contri : 1.0;
         //     cout << (double)actual_contri/(double)g_contri << " " << precision << endl;
         // }
@@ -187,11 +187,11 @@ void* produce(void* arg) {
     stop = true;
     // close the file
     reader.close();
-    if (maxm > num_pkts * (h-2))
-        cerr << "=== Error === " << endl;
+    if (maxm >= num_pkts * (h-1))
+        cerr << "=== Error === " << maxm << endl;
     // cerr << actual_contri << " " << rep_contri << " " << g_contri << endl;    
     // cerr << "Precision : " << (double)actual_contri/(double)rep_contri << ", Recall : " << (double)actual_contri/(double)g_contri << endl;
-    cout << (double)actual_contri/(double)rep_contri << endl;
+    cerr << (double)actual_contri/(double)g_contri << endl;
     // cerr << maxm << endl;
     
 }
@@ -262,11 +262,11 @@ int main(int argc, char* argv[])
     h = atoi(argv[1]);
     w = atoi(argv[2]);
     num_pkts = 2048/h;
-    sleep_time = 82;
+    sleep_time = 84;
     if (h == 32)
         sleep_time = 78;
     if (h == 64)
-        sleep_time = 56;
+        sleep_time = 60;
     alpha = atof(argv[3]);
     for (int i = 0; i < h; i++) {
         c[i].set(w, d, hashes[i%4]);

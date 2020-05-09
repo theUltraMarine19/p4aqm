@@ -8,7 +8,7 @@ parser c_parser(packet_in packet, out headers hdr, inout metadata meta, inout st
         packet.extract(hdr.ethernet);
         transition select(hdr.ethernet.etherType) {
             TYPE_IPV4: parse_ipv4;
-            default: accept;
+            // default: accept;
         }
     }
 
@@ -22,14 +22,10 @@ parser c_parser(packet_in packet, out headers hdr, inout metadata meta, inout st
 
     state parse_udp {
         packet.extract(hdr.udp);
-        transition parse_debug;
-    }
-
-    state parse_debug {
         packet.extract(hdr.debug);
         transition accept;
     }
-    // Accept all UDP pkts with payload for now
+    // Accept all UDP pkts for now
 
 }
 

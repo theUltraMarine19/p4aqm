@@ -15,7 +15,7 @@
 #include "PcapFileDevice.h"
 
 using namespace std;
-double replay = 5;
+double replay = 1;
 
 int main(int argc, char* argv[])
 {
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
             duration_sec = chrono::duration_cast<chrono::duration<double, milli>>(end - start);
             
             int durn = (pkt_time*replay - duration_sec.count()*1e3)-80;
-            cout << durn << endl;
+            // cout << durn << endl;
             if (durn > 0)
             	std::this_thread::sleep_for(std::chrono::microseconds(durn));
         }

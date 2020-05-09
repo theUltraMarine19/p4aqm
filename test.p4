@@ -85,7 +85,7 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 	
 	apply {
 
-		hdr.vlan.vlanid = (bit<12>)standard_metadata.deq_qdepth;
+		hdr.vlan.vlanid = (bit<12>)standard_metadata.deq_timedelta;
 		// hdr.debug.ws = (bit<32>)standard_metadata.enq_qdepth;
 	} 
 }	

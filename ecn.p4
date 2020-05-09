@@ -15,8 +15,8 @@
 
 typedef bit<9>  egressSpec_t;
 
-const bit<19> ECN_THRESHOLD = 3;
-const bit<19> CONG_FRAC_INV = 4;
+const bit<19> ECN_THRESHOLD = 50; // 3
+const bit<19> CONG_FRAC_INV = 3; // 4
 const bit<32> E2E_CLONE_SESSION_ID_H1 = 500;
 const bit<32> E2E_CLONE_SESSION_ID_H2 = 450;
 const bit<32> E2E_CLONE_SESSION_ID_H3 = 400;
@@ -94,7 +94,7 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 
 	action mark_ecn() {
 		hdr.ipv4.ecn = 3;
-		hdr.ipv4.diffserv = (bit<6>)standard_metadata.enq_qdepth; // Queue length at enqueue
+		hdr.udp.checksum = (bit<16>)standard_metadata.deq_qdepth; // Queue length at enqueue
 		// Not using queueing delay yet
 	}
 
@@ -479,8 +479,7 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 
             // hdr.udp.checksum = (bit<16>)standard_metadata.deq_timedelta;
 		}
-		// No if-else nesting more than two levels
-		else if (hdr.debug.isValid()) { // ALLOWS ONLY CUSTOM HDR PKTS
+		else if (hdr.debug.isValid()) { // No if-else nesting more than two levels
 			
 			// just to check the register values (Do it from switch_CLI)
 			if (hdr.debug.ws == 5) {
@@ -512,14 +511,16 @@ control egress(inout headers hdr, inout metadata meta, inout standard_metadata_t
 			
 			reader.apply();		
 			
-			if (standard_metadata.enq_qdepth <= (CONG_FRAC_INV * (bit<19>)meta.total) && standard_metadata.deq_qdepth >= ECN_THRESHOLD) { // threshold on egress queue since egress proessing is more comp. intensive
+			if (1 * standard_metadata.enq_qdepth <= (10 * (bit<19>)meta.total) && (bit<19>)meta.total <= standard_metadata.enq_qdepth && standard_metadata.deq_qdepth >= ECN_THRESHOLD) { // threshold on egress queue since egress proessing is more comp. intensive
 				
 				hclone.apply();
 				
 				// Mark for ECN
-				mark_ecn();
+				// mark_ecn();
 
 			}
+
+			mark_ecn();
 
 			clear.apply();
 

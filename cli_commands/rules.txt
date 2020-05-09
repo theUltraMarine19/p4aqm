@@ -1,4 +1,4 @@
-set_queue_depth 256
+set_queue_depth 255
 
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.2 => 2
 table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.1 => 1
@@ -24,14 +24,14 @@ table_add clear clear2 0 =>
 table_add clear clear3 1 =>
 table_add clear clear4 2 =>
 
-table_add reader read1_0 0 1 =>
-table_add reader read2_0 1 1 =>
-table_add reader read3_0 2 1 =>
-table_add reader read4_0 3 1 =>
-table_add reader read1_1 0 2 =>
-table_add reader read2_1 1 2 =>
-table_add reader read3_1 2 2 =>
-table_add reader read4_1 3 2 =>
+table_add reader read1_0 0 0 =>
+table_add reader read2_0 1 0 =>
+table_add reader read3_0 2 0 =>
+table_add reader read4_0 3 0 =>
+table_add reader read1_1 0 1 =>
+table_add reader read2_1 1 1 =>
+table_add reader read3_1 2 1 =>
+table_add reader read4_1 3 1 =>
 
 set_crc32_parameters calc 0x04C11DB7 0xffffffff 0xffffffff 1 1
 set_crc32_parameters calc_0 0xEDB88320 0xffffffff 0xffffffff 1 1

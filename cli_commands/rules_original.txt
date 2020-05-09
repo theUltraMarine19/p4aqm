@@ -1,0 +1,145 @@
+set_queue_depth 383
+
+table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.2 => 2
+table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.1 => 1
+table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.3 => 3
+table_add ingress.ipv4_fwd ingress.ipv4_forward 10.0.0.4 => 4
+
+mirroring_add 500 5
+mirroring_add 400 7
+mirroring_add 300 8
+
+table_add hclone clone_h1 10.0.0.1 =>
+table_add hclone clone_h2 10.0.0.2 =>
+table_add hclone clone_h3 10.0.0.3 =>
+table_add hclone clone_h4 10.0.0.4 =>
+
+table_add invoke compute1 0 =>
+table_add invoke compute2 1 =>
+table_add invoke compute3 2 =>
+table_add invoke compute4 3 =>
+
+table_add clear clear1 3 =>
+table_add clear clear2 0 =>
+table_add clear clear3 1 =>
+table_add clear clear4 2 =>
+
+table_add reader read1_0 0 1 =>
+table_add reader read2_0 1 1 =>
+table_add reader read3_0 2 1 =>
+table_add reader read4_0 3 1 =>
+table_add reader read1_1 0 2 =>
+table_add reader read2_1 1 2 =>
+table_add reader read3_1 2 2 =>
+table_add reader read4_1 3 2 =>
+
+set_crc32_parameters calc 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_0 0xEDB88320 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_1 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_2 0x82608EDB 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_3 0x741B8CD7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_4 0xEB31D82E 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_5 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_6	0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_7 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_8 0x992C1A4C 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_9 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_10 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_11 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_12 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_13 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_14 0x741B8CD7 0xffffffff 0xffffffff 1 1
+
+
+
+set_crc32_parameters calc_15 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_16 0xEDB88320 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_17 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_18 0x82608EDB 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_19 0x741B8CD7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_20 0xEB31D82E 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_21 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_22 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_23 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_24 0x992C1A4C 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_25 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_26 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_27 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_28 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_29 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_30 0x741B8CD7 0xffffffff 0xffffffff 1 1
+
+
+
+set_crc32_parameters calc_31 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_32 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_33 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_34 0x741B8CD7 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_35 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_36 0xEDB88320 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_37 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_38 0x82608EDB 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_39 0x741B8CD7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_40 0xEB31D82E 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_41 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_42 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_43 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_44 0x992C1A4C 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_45 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_46 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+
+set_crc32_parameters calc_47 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_48 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_49 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_50 0x741B8CD7 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_51 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_52 0x992C1A4C 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_53 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_54 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+
+set_crc32_parameters calc_55 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_56 0xEDB88320 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_57 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_58 0x82608EDB 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_59 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_60 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_61 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_62 0x741B8CD7 0xffffffff 0xffffffff 1 1
+
+
+set_crc32_parameters calc_63 0x741B8CD7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_64 0xEB31D82E 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_65 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_66 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_67 0x04C11DB7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_68 0xEDB88320 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_69 0xDB710641 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_70 0x82608EDB 0xffffffff 0xffffffff 1 1
+
+
+set_crc32_parameters calc_71 0x32583499 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_72 0x992C1A4C 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_73 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_74 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+set_crc32_parameters calc_75 0x741B8CD7 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_76 0xEB31D82E 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_77 0xD663B05 0xffffffff 0xffffffff 1 1
+set_crc32_parameters calc_78 0xBA0DC66B 0xffffffff 0xffffffff 1 1
+
+register_write reg11 0 0
+register_read reg11 0

@@ -30,8 +30,8 @@ int h, w, d = 4, k = 16;
 int num_pkts;
 int hashes[][4] = { { 0x04C11DB7, 0x0DB88320, 0x0B710641, 0x02608EDB }, { 0x041B8CD7, 0x0B31D82E, 0x0D663B05, 0x0A0DC66B }, { 0x02583499, 0x092C1A4C, 0x0D663B05, 0x0A0DC66B }, { 0x02583499, 0x04C11DB7, 0x0B710641, 0x041B8CD7 } };   
 CountMinSketch c[64]; // h snapshots
-vector<unordered_map<string, int>> vm(64);
-unordered_map<string, int> distinct;
+vector<unordered_map<string, long>> vm(64);
+unordered_map<string, long> distinct;
 long tot_read = 0, tot_gread = 0, prec_ctr = 0, rec_ctr = 0;
 double prec = 0, recall = 0.0;
 
@@ -108,11 +108,18 @@ void* produce(void* arg) {
         // Write to snapshot
         int write_stage = (ctr/num_pkts)%h;
         // c[write_stage].view_snapshot();
-        c[write_stage].update(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort, rawPacket.getRawDataLen());
+        c[write_stage].update(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort); //, rawPacket.getRawDataLen());
         // c[write_stage].view_snapshot();
+
+
         // Ground truth DS for accounting
-        vm[write_stage][key]+= 1;
-        distinct[key] += rawPacket.getRawDataLen();
+        // cout << "==============\n";
+        vm[write_stage][key] += 1; //rawPacket.getRawDataLen();
+        // cout << rawPacket.getRawDataLen() << endl;
+        distinct[key] += 1; //rawPacket.getRawDataLen();
+        // cout << rawPacket.getRawDataLen() << endl;
+        // cout << "==============\n";
+        
         vector<uint32_t> arr({srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort});
         q.push_back({rawPacket.getRawDataLen(), arr});
         wsq.push(write_stage);
@@ -123,6 +130,7 @@ void* produce(void* arg) {
 
         if ((read_limit+1)%h == write_stage) {
             read1 = c[read_limit].estimate(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
+            gread += vm[read_limit][key];
         }
         
         else if (read_limit != write_stage && (read_limit+1)%h != write_stage) {
@@ -144,6 +152,8 @@ void* produce(void* arg) {
             }
 
             read1 = read + c[read_limit].estimate(srcIP.toInt(), destIP.toInt(), protocol, srcPort, dstPort);
+            gread += vm[read_limit][key];
+
             if (gread != distinct[key]) {
                 // cout << start << " " << end << endl;
                 // for (int i = 0; i < h; i++) {
@@ -158,18 +168,18 @@ void* produce(void* arg) {
 
         tot_read += read;
         tot_gread += gread;
-        // if (read != 0 && (sz > 50) && ((double)read/(double)sz > 0.1)) {
-        //     prec += 1 - (double)gread/(double)read;
-        //     prec_ctr += 1;
-        // }
-        // if (distinct[key] != 0 && (sz > 50) && ((double)read/(double)sz > 0.1)) {
-        //     recall += 1 - (double)gread/(double)distinct[key];
-        //     rec_ctr += 1;
-        // }
-
-        if ((sz > 50) && ((double)read/(double)sz > 0.1)) {
-            cout << (double)read/(double)(8*1024) << " " << (double)read1/(double)(8*1024) << " " << (double)distinct[key]/(double)(8*1024) << endl;   
+        if (read != 0 && (sz > 50) && ((double)distinct[key]/(double)sz > 0.1)) {
+            prec += 1 - (double)gread/(double)read;
+            prec_ctr += 1;
         }
+        if (distinct[key] != 0){ // && (sz > 50) && ((double)distinct[key]/(double)sz > 0.1)) {
+            recall += 1 - (double)gread/(double)distinct[key];
+            rec_ctr += 1;
+        }
+
+        // if ((sz > 50) && ((double)read/(double)sz > 0.1)) {
+        //     cout << (double)read/(double)(8*1024) << " " << (double)read1/(double)(8*1024) << " " << (double)distinct[key]/(double)(8*1024) << endl;   
+        // }
 
         
         // cout << write_stage << " " << read_limit << " " << q.size() << " " << read << endl;        
@@ -181,6 +191,7 @@ void* produce(void* arg) {
         for (int i = 0; i < d; i++) {
             for (int j = 0; j < k; j++)
                 c[(write_stage+1)%h].C[i][(k*ctr+j)%w] = 0;
+                vm[(write_stage+1)%h][key] = 0;
         }
 
         pthread_mutex_unlock(&mutex);
@@ -205,7 +216,7 @@ void* produce(void* arg) {
     // cout << "Avg Snapshot rounding error : " << recall/rec_ctr << endl;
 
     // cerr << maxm << " " << distinct.size() << " " << ctr << endl;
-    if (maxm > num_pkts * (h-2))
+    if (maxm > num_pkts * (h-1))
         cerr << "=== Error === " << endl;
     // for (auto it = m.begin(); it!= m.end(); ++it) {
     //     cout << it->first << endl;
@@ -213,8 +224,9 @@ void* produce(void* arg) {
     // if (tot_read == 0)
     //     cerr << "--- No reads ---\n";
     // else
-    //     cerr << prec/prec_ctr << endl;
-    // cerr << recall/rec_ctr << endl;
+        // cerr << prec/prec_ctr << endl;
+    cerr << recall/rec_ctr <<   endl;
+    // cerr << maxm << endl;
         
     
 }
@@ -236,12 +248,13 @@ void* consume(void* arg) {
             auto ele = q.front();
             int x = ele.first;
             // cout << x << endl;
+            string key = to_string(ele.second[0])+to_string(ele.second[1])+to_string(ele.second[2])+to_string(ele.second[3])+to_string(ele.second[4]);
+
             q.pop_front();
 
             if (x + tot < out_limit) {
                 tot += x;
                 cnt += 1;
-                string key = to_string(ele.second[0])+to_string(ele.second[1])+to_string(ele.second[2])+to_string(ele.second[3])+to_string(ele.second[4]);
                 
                 // if (vm[wsq.front()].find(key) == vm[wsq.front()].end()) {
                 //     cout << "-------------- Key NOT FOUND --------------\n";
@@ -251,14 +264,16 @@ void* consume(void* arg) {
                 // if (vm[wsq.front()][key] == 0)
                 //     cout << "============ Major error ===============\n";
                 
-                vm[wsq.front()][key] -= 1;
-                distinct[key] -= x;
+                // vm[wsq.front()][key] -= 1;
+                distinct[key] -= 1;
                 if (distinct[key] == 0)
                     distinct.erase(key);
                 wsq.pop();
             }
             else {
                 q.push_front({x - (out_limit - tot), ele.second});
+                // distinct[key] -= (out_limit - tot);
+                // vm[wsq.front()][key] -= (out_limit - tot);
                 tot += (out_limit - tot);
 
             }
@@ -285,11 +300,11 @@ int main(int argc, char* argv[])
     h = atoi(argv[1]);
     w = atoi(argv[2]);
     num_pkts = 2048/h;
-    sleep_time = 84;
+    sleep_time = 88;
     if (h == 32)
-        sleep_time = 78;
+        sleep_time = 68;
     if (h == 64)
-        sleep_time = 56;
+        sleep_time = 60;
     // cerr << sleep_time << " ";
     for (int i = 0; i < h; i++) {
         c[i].set(w, d, hashes[i%4]);
